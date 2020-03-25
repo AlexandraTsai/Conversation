@@ -16,6 +16,8 @@
 		A85C5C24242A3C54001F369D /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85C5C23242A3C54001F369D /* Friend.swift */; };
 		A85C5C26242A53F9001F369D /* ConversationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85C5C25242A53F9001F369D /* ConversationViewModel.swift */; };
 		A85C5C29242A5A52001F369D /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85C5C28242A5A52001F369D /* ConversationViewController.swift */; };
+		A85C5C2C242AD676001F369D /* FriendListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A85C5C2B242AD676001F369D /* FriendListCell.xib */; };
+		A85C5C30242ADC75001F369D /* FriendListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85C5C2F242ADC75001F369D /* FriendListCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,8 @@
 		A85C5C23242A3C54001F369D /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
 		A85C5C25242A53F9001F369D /* ConversationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewModel.swift; sourceTree = "<group>"; };
 		A85C5C28242A5A52001F369D /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
+		A85C5C2B242AD676001F369D /* FriendListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendListCell.xib; sourceTree = "<group>"; };
+		A85C5C2F242ADC75001F369D /* FriendListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +66,7 @@
 		A85C5C0C242A2CA0001F369D /* Conversation */ = {
 			isa = PBXGroup;
 			children = (
+				A85C5C2A242AD63E001F369D /* View */,
 				A85C5C27242A5A3B001F369D /* ViewController */,
 				A85C5C22242A3C3F001F369D /* ViewModel */,
 				A85C5C21242A3C2D001F369D /* Model */,
@@ -98,6 +103,15 @@
 				A85C5C28242A5A52001F369D /* ConversationViewController.swift */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		A85C5C2A242AD63E001F369D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				A85C5C2B242AD676001F369D /* FriendListCell.xib */,
+				A85C5C2F242ADC75001F369D /* FriendListCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -161,6 +175,7 @@
 				A85C5C1A242A2CA6001F369D /* LaunchScreen.storyboard in Resources */,
 				A85C5C17242A2CA6001F369D /* Assets.xcassets in Resources */,
 				A85C5C15242A2CA0001F369D /* Main.storyboard in Resources */,
+				A85C5C2C242AD676001F369D /* FriendListCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,6 +191,7 @@
 				A85C5C29242A5A52001F369D /* ConversationViewController.swift in Sources */,
 				A85C5C0E242A2CA0001F369D /* AppDelegate.swift in Sources */,
 				A85C5C10242A2CA0001F369D /* SceneDelegate.swift in Sources */,
+				A85C5C30242ADC75001F369D /* FriendListCell.swift in Sources */,
 				A85C5C24242A3C54001F369D /* Friend.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -11,9 +11,18 @@ import UIKit
 
 class ConversationViewModel {
     
+    var friendList: Array<Friend>
+    
+    init() {
+        fetchFriends()
+    }
+    
+    private func fetchFriends() {
+        friendList = dummyFriendList
+    }
 }
 
-let dummyFriendList: [Friend] = [
+let dummyFriendList: Array<Friend> = [
     Friend(firstName: "Janet", lastName: "CHIU", email: "jordanLin@gmail.com", image: UIImage(named: "fimage1")),
     Friend(firstName: "Wendy", lastName: "CHOU", email: "jordanLin@gmail.com", image: UIImage(named: "fimage2")),
     Friend(firstName: "Marria", lastName: "Co", email: "jordanLin@gmail.com", image: nil),

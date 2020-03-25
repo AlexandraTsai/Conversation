@@ -21,9 +21,21 @@ class ConversationViewController: UIViewController {
             subjectTextView.delegate = self
         }
     }
+    
+    var friendListTableView: UITableView? {
+        didSet {
+            self.friendListTableView?.delegate = self
+        }
+    }
+    
+    let viewModel = ConversationViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    func showFriendList() {
+        
     }
 
 }
@@ -31,6 +43,19 @@ class ConversationViewController: UIViewController {
 extension ConversationViewController: UITextViewDelegate {
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        print("he")
+        
     }
+}
+
+extension ConversationViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.friendList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        <#code#>
+    }
+    
+    
 }

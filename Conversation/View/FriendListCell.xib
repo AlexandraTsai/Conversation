@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="66" id="2oH-19-glo">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="66"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2oH-19-glo" id="KA8-Iv-AhZ">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="66"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="db3-Dt-gZU" customClass="UIImageView">
+                        <rect key="frame" x="10" y="10" width="48.5" height="48.5"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="L" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v1N-f9-6ds">
+                                <rect key="frame" x="12" y="12" width="24.5" height="24.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="v1N-f9-6ds" secondAttribute="height" multiplier="1:1" id="Pna-Xl-zbb"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="v1N-f9-6ds" firstAttribute="centerY" secondItem="db3-Dt-gZU" secondAttribute="centerY" id="9ne-rf-rGA"/>
+                            <constraint firstItem="v1N-f9-6ds" firstAttribute="centerX" secondItem="db3-Dt-gZU" secondAttribute="centerX" id="Ypq-vg-kht"/>
+                            <constraint firstAttribute="width" secondItem="db3-Dt-gZU" secondAttribute="height" multiplier="1:1" id="o3F-4a-xD1"/>
+                            <constraint firstItem="v1N-f9-6ds" firstAttribute="width" secondItem="db3-Dt-gZU" secondAttribute="width" multiplier="1:2" id="tMm-pa-LGz"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QjO-NW-rd8">
+                        <rect key="frame" x="73.5" y="10" width="45" height="21"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gFY-0c-LKI">
+                        <rect key="frame" x="73.5" y="38.5" width="27" height="20"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                        <color key="textColor" red="0.48627450980392156" green="0.51764705882352935" blue="0.58039215686274503" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="QjO-NW-rd8" firstAttribute="top" secondItem="db3-Dt-gZU" secondAttribute="top" id="AQy-hu-J02"/>
+                    <constraint firstItem="gFY-0c-LKI" firstAttribute="bottom" secondItem="db3-Dt-gZU" secondAttribute="bottom" id="BhK-eX-gq8"/>
+                    <constraint firstItem="db3-Dt-gZU" firstAttribute="leading" secondItem="KA8-Iv-AhZ" secondAttribute="leading" constant="10" id="CFl-u1-Jsa"/>
+                    <constraint firstItem="gFY-0c-LKI" firstAttribute="leading" secondItem="QjO-NW-rd8" secondAttribute="leading" id="RQO-st-JTp"/>
+                    <constraint firstItem="db3-Dt-gZU" firstAttribute="top" secondItem="KA8-Iv-AhZ" secondAttribute="top" constant="10" id="nVZ-K5-baj"/>
+                    <constraint firstItem="QjO-NW-rd8" firstAttribute="leading" secondItem="db3-Dt-gZU" secondAttribute="trailing" constant="15" id="ueu-wz-BDW"/>
+                </constraints>
+            </tableViewCellContentView>
+            <constraints>
+                <constraint firstItem="db3-Dt-gZU" firstAttribute="width" secondItem="2oH-19-glo" secondAttribute="width" multiplier="44:375" id="0aF-tA-PES"/>
+                <constraint firstItem="gFY-0c-LKI" firstAttribute="height" secondItem="2oH-19-glo" secondAttribute="width" multiplier="18:375" id="Dtj-Za-GHI"/>
+            </constraints>
+            <point key="canvasLocation" x="44.927536231884062" y="-6.6964285714285712"/>
+        </tableViewCell>
+    </objects>
+</document>
