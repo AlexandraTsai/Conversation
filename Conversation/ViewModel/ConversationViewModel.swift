@@ -29,7 +29,7 @@ let dummyFriendList: Array<Friend> = [
     Friend(firstName: "Kelia", lastName: "Moniz", email: "jordanLin@gmail.com", image: UIImage(named: "fimage3")),
     Friend(firstName: "Anita", lastName: "Chen", email: "jordanLin@gmail.com", image: UIImage(named: "fimage4")),
     Friend(firstName: "Cindy", lastName: "Chang", email: "jordanLin@gmail.com", image: UIImage(named: "fimage5")),
-    Friend(firstName: "Jordan", lastName: "Lin", email: "jordanLin@gmail.com", image: UIImage(named: "mimage2")),
+    Friend(firstName: "Jordan", lastName: "Lin", email: "jordanLin@gmail.com", image: UIImage(named: "mimage1")),
     Friend(firstName: "David", lastName: "Wang", email: "jordanLin@gmail.com", image: nil),
     Friend(firstName: "Fabio", lastName: "Wu", email: "jordanLin@gmail.com", image: UIImage(named: "mimage2"))
 ]

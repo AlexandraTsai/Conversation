@@ -10,7 +10,7 @@ import UIKit
 
 class ConversationViewController: UIViewController {
     
-    @IBOutlet weak var toTextView: UITextView! {
+    @IBOutlet weak var toTextView: FloatingTextView! {
         didSet {
             toTextView.delegate = self
         }
@@ -62,7 +62,22 @@ extension ConversationViewController: UITextViewDelegate {
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         showFriendList()
+        toTextView.placeholderLabel.font = UIFont.systemFont(ofSize: 10)
+        UIView.animate(withDuration: 0.5) {
+            self.toTextView.placeHolderTopConstraint.constant = 0
+            self.view.layoutIfNeeded()
+        }
     }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        friendListTableView.isHidden = true
+        toTextView.placeholderLabel.font = UIFont.systemFont(ofSize: 17)
+        UIView.animate(withDuration: 0.5) {
+            self.toTextView.placeHolderTopConstraint.constant = (self.toTextView.bounds.height - self.toTextView.placeholderLabel.bounds.height)/2
+            self.view.layoutIfNeeded()
+        }
+    }
+    
 }
 
 extension ConversationViewController: UITableViewDelegate, UITableViewDataSource {

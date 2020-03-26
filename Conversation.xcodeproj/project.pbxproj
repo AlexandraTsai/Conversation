@@ -19,6 +19,7 @@
 		A85C5C2C242AD676001F369D /* FriendListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A85C5C2B242AD676001F369D /* FriendListCell.xib */; };
 		A85C5C30242ADC75001F369D /* FriendListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85C5C2F242ADC75001F369D /* FriendListCell.swift */; };
 		A85C5C33242BA480001F369D /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85C5C32242BA480001F369D /* UITableView+Extension.swift */; };
+		A85C5C35242CCB04001F369D /* FloatingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85C5C34242CCB04001F369D /* FloatingTextView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		A85C5C2B242AD676001F369D /* FriendListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendListCell.xib; sourceTree = "<group>"; };
 		A85C5C2F242ADC75001F369D /* FriendListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListCell.swift; sourceTree = "<group>"; };
 		A85C5C32242BA480001F369D /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
+		A85C5C34242CCB04001F369D /* FloatingTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingTextView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +115,7 @@
 			children = (
 				A85C5C2B242AD676001F369D /* FriendListCell.xib */,
 				A85C5C2F242ADC75001F369D /* FriendListCell.swift */,
+				A85C5C34242CCB04001F369D /* FloatingTextView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -197,6 +200,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A85C5C35242CCB04001F369D /* FloatingTextView.swift in Sources */,
 				A85C5C26242A53F9001F369D /* ConversationViewModel.swift in Sources */,
 				A85C5C12242A2CA0001F369D /* ViewController.swift in Sources */,
 				A85C5C29242A5A52001F369D /* ConversationViewController.swift in Sources */,
