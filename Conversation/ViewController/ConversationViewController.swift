@@ -28,6 +28,7 @@ class ConversationViewController: UIViewController {
             self.friendListTableView.dataSource = self
             self.friendListTableView.registerCellWithNib(identifier: String(describing: FriendListCell.self),
                                                           bundle: nil)
+            self.friendListTableView.separatorStyle = .none
         }
     }
     

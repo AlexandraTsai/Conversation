@@ -42,12 +42,22 @@
                         <color key="textColor" red="0.48627450980392156" green="0.51764705882352935" blue="0.58039215686274503" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="enl-2N-1Qe">
+                        <rect key="frame" x="73.5" y="66" width="320.5" height="1"/>
+                        <color key="backgroundColor" red="0.87450980392156863" green="0.88627450980392153" blue="0.90588235294117647" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="91k-64-doD"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="trailing" secondItem="enl-2N-1Qe" secondAttribute="trailing" constant="20" symbolic="YES" id="8Vs-Ii-fl9"/>
                     <constraint firstItem="gFY-0c-LKI" firstAttribute="bottom" secondItem="Xmb-0Z-07i" secondAttribute="bottom" id="Bxg-xq-vti"/>
                     <constraint firstItem="QjO-NW-rd8" firstAttribute="top" secondItem="Xmb-0Z-07i" secondAttribute="top" id="J09-A0-iiR"/>
+                    <constraint firstAttribute="bottom" secondItem="enl-2N-1Qe" secondAttribute="bottom" id="Pgf-nE-2cw"/>
                     <constraint firstItem="gFY-0c-LKI" firstAttribute="leading" secondItem="QjO-NW-rd8" secondAttribute="leading" id="RQO-st-JTp"/>
                     <constraint firstItem="v1N-f9-6ds" firstAttribute="centerY" secondItem="Xmb-0Z-07i" secondAttribute="centerY" id="Rra-OA-HBk"/>
+                    <constraint firstItem="enl-2N-1Qe" firstAttribute="leading" secondItem="QjO-NW-rd8" secondAttribute="leading" id="cNp-1v-7NO"/>
                     <constraint firstItem="Xmb-0Z-07i" firstAttribute="top" secondItem="KA8-Iv-AhZ" secondAttribute="top" constant="9" id="hSB-xu-AHT"/>
                     <constraint firstItem="v1N-f9-6ds" firstAttribute="centerX" secondItem="Xmb-0Z-07i" secondAttribute="centerX" id="jtg-QT-NOH"/>
                     <constraint firstItem="Xmb-0Z-07i" firstAttribute="leading" secondItem="KA8-Iv-AhZ" secondAttribute="leading" constant="10" id="oKt-xG-Dqe"/>
