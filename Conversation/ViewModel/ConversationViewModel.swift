@@ -11,10 +11,10 @@ import UIKit
 
 class ConversationViewModel {
     
-    var friendList: Array<Friend>
+    var friendList: Array<Friend> = Array<Friend>()
     
     init() {
-        fetchFriends()
+        self.fetchFriends()
     }
     
     private func fetchFriends() {

@@ -19,7 +19,7 @@ class FriendListCell: UITableViewCell {
     @IBOutlet weak var emailLabel: UILabel!
     
     override func awakeFromNib() {
-        
+    
     }
     
     func setupWith(image: UIImage?, name: String, email: String) {
@@ -30,6 +30,7 @@ class FriendListCell: UITableViewCell {
             coverImageView.image = nil
             coverLabel.text = String(representChar)
         }
+        coverLabel.isHidden = (image != nil)
         nameLabel.text = name
         emailLabel.text = email
     }

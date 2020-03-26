@@ -18,6 +18,7 @@
 		A85C5C29242A5A52001F369D /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85C5C28242A5A52001F369D /* ConversationViewController.swift */; };
 		A85C5C2C242AD676001F369D /* FriendListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A85C5C2B242AD676001F369D /* FriendListCell.xib */; };
 		A85C5C30242ADC75001F369D /* FriendListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85C5C2F242ADC75001F369D /* FriendListCell.swift */; };
+		A85C5C33242BA480001F369D /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85C5C32242BA480001F369D /* UITableView+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		A85C5C28242A5A52001F369D /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
 		A85C5C2B242AD676001F369D /* FriendListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendListCell.xib; sourceTree = "<group>"; };
 		A85C5C2F242ADC75001F369D /* FriendListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListCell.swift; sourceTree = "<group>"; };
+		A85C5C32242BA480001F369D /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 		A85C5C0C242A2CA0001F369D /* Conversation */ = {
 			isa = PBXGroup;
 			children = (
+				A85C5C31242BA466001F369D /* Extension */,
 				A85C5C2A242AD63E001F369D /* View */,
 				A85C5C27242A5A3B001F369D /* ViewController */,
 				A85C5C22242A3C3F001F369D /* ViewModel */,
@@ -112,6 +115,14 @@
 				A85C5C2F242ADC75001F369D /* FriendListCell.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		A85C5C31242BA466001F369D /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				A85C5C32242BA480001F369D /* UITableView+Extension.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -193,6 +204,7 @@
 				A85C5C10242A2CA0001F369D /* SceneDelegate.swift in Sources */,
 				A85C5C30242ADC75001F369D /* FriendListCell.swift in Sources */,
 				A85C5C24242A3C54001F369D /* Friend.swift in Sources */,
+				A85C5C33242BA480001F369D /* UITableView+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
