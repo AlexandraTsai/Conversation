@@ -13,12 +13,14 @@ class ConversationViewController: UIViewController {
     @IBOutlet weak var toTextView: FloatingTextView! {
         didSet {
             toTextView.delegate = self
+            toTextView.inputAccessoryView = returnView
         }
     }
     
     @IBOutlet weak var subjectTextView: UITextView! {
         didSet {
             subjectTextView.delegate = self
+            subjectTextView.inputAccessoryView = returnView
         }
     }
         
@@ -32,11 +34,14 @@ class ConversationViewController: UIViewController {
         }
     }
     
+    let returnView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 62))
+    
     let viewModel = ConversationViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupFriendListTableView()
+        setupReturnView()
         friendListTableView.isHidden = true
     }
     
@@ -51,13 +56,30 @@ class ConversationViewController: UIViewController {
         friendListTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
     
-    func showFriendList() {
+    private func showFriendList() {
         friendListTableView.isHidden = false
         friendListTableView.reloadData()
     }
 
+    //MARK: - Keyboard
+    private func setupReturnView() {
+        returnView.backgroundColor = .white
+        let returnBtn = UIButton()
+        returnView.addSubview(returnBtn)
+        returnBtn.translatesAutoresizingMaskIntoConstraints = false
+        returnBtn.centerYAnchor.constraint(equalTo: returnView.centerYAnchor).isActive = true
+        returnBtn.centerXAnchor.constraint(equalTo: returnView.centerXAnchor).isActive = true
+        returnBtn.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        returnBtn.backgroundColor = UIColor.red
+//        returnBtn.addTarget(self, action: returnButtonTapped(), for: .touchUpInside)
+    }
+    
+    @objc func returnButtonTapped() {
+        resignFirstResponder()
+    }
 }
 
+//MARK: - TextView Delegate
 extension ConversationViewController: UITextViewDelegate {
     
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -76,6 +98,15 @@ extension ConversationViewController: UITextViewDelegate {
             self.toTextView.placeHolderTopConstraint.constant = (self.toTextView.bounds.height - self.toTextView.placeholderLabel.bounds.height)/2
             self.view.layoutIfNeeded()
         }
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        ///Dismiss the keyboard on return key
+        if text == "\n" {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
     }
     
 }
