@@ -11,14 +11,27 @@ import UIKit
 
 class ConversationViewModel {
     
-    var friendList: Array<Friend> = Array<Friend>()
+    var friendList: Bindable<[Friend]> = Bindable<[Friend]>([Friend]()) {
+        didSet {
+            print(friendList.value)
+        }
+    }
     
     init() {
         self.fetchFriends()
     }
     
     private func fetchFriends() {
-        friendList = dummyFriendList
+        friendList.value = dummyFriendList
+    }
+    
+    func removeFriendListAt(_ index: Int) {
+        guard index < friendList.value.count else {
+            return
+        }
+        var originList = friendList.value
+        originList.remove(at: index)
+        friendList.value = originList
     }
 }
 

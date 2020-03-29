@@ -23,8 +23,19 @@ class ConversationViewController: UIViewController {
             subjectTextView.inputAccessoryView = returnView
         }
     }
+    
+    @IBOutlet weak var toCollectionView: TagField! {
+        didSet {
+            toCollectionView.delegate = self
+            toCollectionView.dataSource = self
+            toCollectionView.registerCellWithNib(identifier: String(describing: TagCell.self), bundle: nil)
+//            toCollectionView.registerCellWithNib(identifier: String(describing: AlexCell.self), bundle: nil)
+            toCollectionView.register(AlexCell.self, forCellWithReuseIdentifier: String(describing: AlexCell.self))
+            toCollectionView.contentInset = UIEdgeInsets(top: 14.5, left: 20, bottom: 14.5, right: 20)
+        }
+    }
         
-    var friendListTableView = UITableView() {
+     var friendListTableView = UITableView() {
         didSet {
             self.friendListTableView.delegate = self
             self.friendListTableView.dataSource = self
@@ -37,12 +48,25 @@ class ConversationViewController: UIViewController {
     let returnView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 62))
     
     let viewModel = ConversationViewModel()
-
+    
+    var selectedFriend = [Friend]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupFriendListTableView()
         setupReturnView()
         friendListTableView.isHidden = true
+        bindViewModel()
+    }
+    
+    private func bindViewModel() {
+        viewModel.friendList.bind { [weak self] friendList in
+            
+            DispatchQueue.main.async {
+                self?.friendListTableView.reloadData()
+                self?.toCollectionView.reloadData()
+            }
+        }
     }
     
     //MARK: - Friend List Table View
@@ -111,17 +135,63 @@ extension ConversationViewController: UITextViewDelegate {
     
 }
 
+//MARK: - CollectionView Delegate & DataSource
+extension ConversationViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return selectedFriend.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TagCell.self), for: indexPath)
+//
+//        guard let tagCell = cell as? TagCell else { return cell }
+//
+//        var friend = selectedFriend[indexPath.row]
+//        tagCell.setupWith(image:friend.image, name: friend.showName)
+//        return tagCell
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: AlexCell.self), for: indexPath)
+//
+        guard let tagCell = cell as? AlexCell else { return cell }
+
+        var friend = selectedFriend[indexPath.row]
+        tagCell.setupData(friend.image, friend.showName)
+//        cell.setNeedsLayout()
+//        cell.layoutIfNeeded()
+        cell.backgroundColor = UIColor.red
+        print("-------cellForItemAt------")
+        print(tagCell.bounds)
+        print(tagCell.coverImageView.frame)
+        print(tagCell.nameLabel.frame)
+        print(tagCell.deleteButton.frame)
+        return tagCell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let name = NSString(string: selectedFriend[indexPath.row].showName)
+        
+        let size: CGSize = name.size(withAttributes:  [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 13.0)])
+        print("size.width \(size.width)")
+        return CGSize(width: size.width, height: 23)
+    }
+}
+
+
+//MARK: - TableView Delegate & DataSource
 extension ConversationViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.friendList.count
+        return viewModel.friendList.value.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: FriendListCell.self), for: indexPath)
         guard let friendListCell = cell as? FriendListCell else { return cell }
-        var friend = viewModel.friendList[indexPath.row]
+        var friend = viewModel.friendList.value[indexPath.row]
         friendListCell.setupWith(image: friend.image,
                                  name: friend.showName,
                                  email: friend.email)
@@ -130,6 +200,13 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60 * UIScreen.main.bounds.width / 375
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedFriend.append(viewModel.friendList.value[indexPath.row])
+        DispatchQueue.global().async {
+            self.viewModel.removeFriendListAt(indexPath.row)
+        }
     }
     
 }

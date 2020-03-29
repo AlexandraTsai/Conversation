@@ -4,6 +4,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -74,9 +75,29 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="758"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="KpL-cw-sSB" customClass="TagField" customModule="Conversation" customModuleProvider="target">
+                                <rect key="frame" x="16" y="40" width="343" height="52"/>
+                                <color key="backgroundColor" red="0.48627450979999998" green="0.51764705879999995" blue="0.58039215690000001" alpha="0.84705882349999995" colorSpace="calibratedRGB"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="hcP-fB-DNn">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="a0k-Q5-JU3">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="Jor-9c-dan">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ELy-vS-dzO" customClass="FloatingTextView" customModule="Conversation" customModuleProvider="target">
                                 <rect key="frame" x="16" y="40" width="343" height="52"/>
-                                <color key="backgroundColor" red="0.95686274509803915" green="0.96078431372549022" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="ELy-vS-dzO" secondAttribute="height" multiplier="343:52" id="ChU-sZ-zxT"/>
                                 </constraints>
@@ -131,8 +152,12 @@
                             <constraint firstItem="mEn-2Y-hG4" firstAttribute="trailing" secondItem="n4H-ih-s3I" secondAttribute="trailing" id="JOV-Kh-rdt"/>
                             <constraint firstItem="ELy-vS-dzO" firstAttribute="top" secondItem="pMa-Qv-peO" secondAttribute="top" constant="40" id="LyG-hT-yrj"/>
                             <constraint firstItem="drO-8I-bSL" firstAttribute="leading" secondItem="ELy-vS-dzO" secondAttribute="leading" id="OdW-Y7-Mho"/>
+                            <constraint firstItem="KpL-cw-sSB" firstAttribute="top" secondItem="ELy-vS-dzO" secondAttribute="top" id="UyP-k6-eyc"/>
+                            <constraint firstItem="KpL-cw-sSB" firstAttribute="bottom" secondItem="ELy-vS-dzO" secondAttribute="bottom" id="edL-C1-9aZ"/>
                             <constraint firstItem="ELy-vS-dzO" firstAttribute="centerX" secondItem="YRg-Tg-RQh" secondAttribute="centerX" id="hTy-Hf-KOJ"/>
+                            <constraint firstItem="KpL-cw-sSB" firstAttribute="leading" secondItem="ELy-vS-dzO" secondAttribute="leading" id="i2u-BQ-Z8p"/>
                             <constraint firstItem="pMa-Qv-peO" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="tF1-xb-jsy" secondAttribute="trailing" symbolic="YES" id="khe-Xy-nbg"/>
+                            <constraint firstItem="KpL-cw-sSB" firstAttribute="trailing" secondItem="ELy-vS-dzO" secondAttribute="trailing" id="mVL-b8-xwX"/>
                             <constraint firstItem="n4H-ih-s3I" firstAttribute="top" secondItem="ELy-vS-dzO" secondAttribute="bottom" constant="15" id="pdu-ej-nsZ"/>
                             <constraint firstItem="mEn-2Y-hG4" firstAttribute="top" secondItem="n4H-ih-s3I" secondAttribute="bottom" constant="5" id="qaY-NB-oU9"/>
                             <constraint firstItem="ELy-vS-dzO" firstAttribute="width" secondItem="YRg-Tg-RQh" secondAttribute="width" multiplier="343:375" id="wi8-Ws-7hh"/>
@@ -142,6 +167,7 @@
                     </view>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="toCollectionView" destination="KpL-cw-sSB" id="8aH-YY-4oD"/>
                         <outlet property="toTextView" destination="ELy-vS-dzO" id="pVD-BC-LA1"/>
                     </connections>
                 </viewController>
