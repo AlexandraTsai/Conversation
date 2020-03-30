@@ -13,14 +13,14 @@ class ConversationViewController: UIViewController {
     @IBOutlet weak var toTextView: FloatingTextView! {
         didSet {
             toTextView.delegate = self
-            toTextView.inputAccessoryView = returnView
+            toTextView.inputAccessoryView = keyboardReturnView
         }
     }
     
     @IBOutlet weak var subjectTextView: UITextView! {
         didSet {
             subjectTextView.delegate = self
-            subjectTextView.inputAccessoryView = returnView
+            subjectTextView.inputAccessoryView = keyboardReturnView
         }
     }
     
@@ -29,14 +29,20 @@ class ConversationViewController: UIViewController {
             toCollectionView.delegate = self
             toCollectionView.dataSource = self
             toCollectionView.registerCellWithNib(identifier: String(describing: TagCell.self), bundle: nil)
-//            toCollectionView.registerCellWithNib(identifier: String(describing: AlexCell.self), bundle: nil)
             toCollectionView.register(AlexCell.self, forCellWithReuseIdentifier: String(describing: AlexCell.self))
+            toCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: String(describing: "Cell"))
             toCollectionView.contentInset = UIEdgeInsets(top: 14.5, left: 20, bottom: 14.5, right: 20)
             toCollectionView.collectionViewLayout = LeftAlignedCollectionViewFlowLayout()
+            
+            let tap = UITapGestureRecognizer(target: self, action: #selector(collectionViewDidTap))
+            tap.numberOfTapsRequired = 1
+            tap.numberOfTouchesRequired = 1
+            tap.delegate = self
+            toCollectionView.addGestureRecognizer(tap)
         }
     }
         
-     var friendListTableView = UITableView() {
+    var friendListTableView = UITableView() {
         didSet {
             self.friendListTableView.delegate = self
             self.friendListTableView.dataSource = self
@@ -46,11 +52,25 @@ class ConversationViewController: UIViewController {
         }
     }
     
-    let returnView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 62))
+    let keyboardReturnView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 62))
+    
+    lazy var textfield: UITextField = {
+        let textfield = UITextField()
+        print("------textField \(textfield)-------")
+        textfield.inputAccessoryView = keyboardReturnView
+        textfield.delegate = self
+        return textfield
+    }()
+    
+//    var endEditing: Bool = true
     
     let viewModel = ConversationViewModel()
     
-    var selectedFriend = [Friend]()
+    var selectedFriend = [Friend]() {
+        didSet {
+            toCollectionView.reloadData()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,10 +82,12 @@ class ConversationViewController: UIViewController {
     
     private func bindViewModel() {
         viewModel.friendList.bind { [weak self] friendList in
-            
             DispatchQueue.main.async {
                 self?.friendListTableView.reloadData()
                 self?.toCollectionView.reloadData()
+                DispatchQueue.main.async {
+                    self?.textfield.becomeFirstResponder()
+                }
             }
         }
     }
@@ -88,18 +110,25 @@ class ConversationViewController: UIViewController {
 
     //MARK: - Keyboard
     private func setupReturnView() {
-        returnView.backgroundColor = .white
+        keyboardReturnView.clipsToBounds = false
         let returnBtn = UIButton()
-        returnView.addSubview(returnBtn)
+        returnBtn.setImage(UIImage(named: "close_arrow_btn"), for: .normal)
+        keyboardReturnView.addSubview(returnBtn)
         returnBtn.translatesAutoresizingMaskIntoConstraints = false
-        returnBtn.centerYAnchor.constraint(equalTo: returnView.centerYAnchor).isActive = true
-        returnBtn.centerXAnchor.constraint(equalTo: returnView.centerXAnchor).isActive = true
+        returnBtn.centerYAnchor.constraint(equalTo: keyboardReturnView.centerYAnchor).isActive = true
+        returnBtn.centerXAnchor.constraint(equalTo: keyboardReturnView.centerXAnchor).isActive = true
         returnBtn.widthAnchor.constraint(equalToConstant: 40).isActive = true
-//        returnBtn.addTarget(self, action: returnButtonTapped(), for: .touchUpInside)
+        returnBtn.heightAnchor.constraint(equalTo: returnBtn.widthAnchor).isActive = true
+        returnBtn.addTarget(self, action: #selector(returnButtonTapped), for: .touchUpInside)
     }
     
     @objc func returnButtonTapped() {
-        resignFirstResponder()
+        textfield.resignFirstResponder()
+//        endEditing = true
+    }
+    
+    @objc func collectionViewDidTap() {
+        textfield.becomeFirstResponder()
     }
 }
 
@@ -135,14 +164,60 @@ extension ConversationViewController: UITextViewDelegate {
     
 }
 
+extension ConversationViewController: UITextFieldDelegate {
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+//        endEditing = false
+        showFriendList()
+        toCollectionView.placeholderLabel.font = UIFont.systemFont(ofSize: 10)
+        UIView.animate(withDuration: 0.5) {
+            self.toCollectionView.placeHolderTopConstraint.constant = 0
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        print("textFieldShouldEndEditing")
+//        return endEditing
+        return true
+    }
+       
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        print("textFieldDidEndEditing")
+        friendListTableView.isHidden = true
+        toCollectionView.placeholderLabel.font = UIFont.systemFont(ofSize: 17)
+        UIView.animate(withDuration: 0.5) {
+            self.toCollectionView.placeHolderTopConstraint.constant = (self.toCollectionView.bounds.height - self.toCollectionView.placeholderLabel.bounds.height)/2
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        print("textFieldShouldReturn")
+//        endEditing = true
+        textField.resignFirstResponder()
+        return true
+    }
+}
+
+extension ConversationViewController: UIGestureRecognizerDelegate { }
+
 //MARK: - CollectionView Delegate & DataSource
 extension ConversationViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return selectedFriend.count
+        return selectedFriend.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        print("cellForItemAt")
+        //The last cell
+        if indexPath.row == (collectionView.numberOfItems(inSection: 0) - 1) {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
+            textfield.frame = cell.bounds
+            cell.addSubview(textfield)
+            return cell
+        }
         
 //        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TagCell.self), for: indexPath)
 //
@@ -161,9 +236,14 @@ extension ConversationViewController: UICollectionViewDelegate, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let name = NSString(string: selectedFriend[indexPath.row].showName)
-        let size: CGSize = name.size(withAttributes:  [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 13.0)])
-        return CGSize(width: size.width + (23 + 3) * 2 , height: 23)
+        if (collectionView.cellForItem(at: indexPath) is AlexCell) {
+            let name = NSString(string: selectedFriend[indexPath.row].showName)
+            let size: CGSize = name.size(withAttributes:  [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 13.0)])
+            return CGSize(width: size.width + (23 + 3) * 2 , height: 23)
+        } else {
+            return CGSize(width: 100, height: 23)
+        }
+        
     }
 }
 
@@ -178,7 +258,8 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: FriendListCell.self), for: indexPath)
-        guard let friendListCell = cell as? FriendListCell else { return cell }
+        guard let friendListCell = cell as? FriendListCell,
+            indexPath.row < viewModel.friendList.value.count else { return cell }
         var friend = viewModel.friendList.value[indexPath.row]
         friendListCell.setupWith(image: friend.image,
                                  name: friend.showName,
@@ -196,5 +277,4 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
             self.viewModel.removeFriendListAt(indexPath.row)
         }
     }
-    
 }
