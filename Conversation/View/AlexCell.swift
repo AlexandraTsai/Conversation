@@ -21,6 +21,8 @@ class AlexCell: UICollectionViewCell {
     let nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 13)
+        label.textColor = UIColor.init(hexString: "000000", alpha: 0.5)
         return label
     }()
     
@@ -28,13 +30,14 @@ class AlexCell: UICollectionViewCell {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("X", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(UIColor.init(hexString: "C2C9D6"), for: .normal)
         return button
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
+        self.backgroundColor = UIColor.white
     }
     
     required init?(coder: NSCoder) {
@@ -42,10 +45,8 @@ class AlexCell: UICollectionViewCell {
     }
     
     func setupViews() {
-        print("=========setupViews========")
         addSubview(nameLabel)
         addSubview(deleteButton)
-//        coverImageView.frame = CGRect(x: 0, y: 0, width: Int(self.bounds.height), height: Int(self.bounds.height))
         addSubview(coverImageView)
 
         coverImageView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
@@ -54,23 +55,23 @@ class AlexCell: UICollectionViewCell {
         coverImageView.widthAnchor.constraint(equalTo: self.heightAnchor).isActive = true
         coverImageView.heightAnchor.constraint(equalToConstant: 23).isActive = true
         nameLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        nameLabel.leadingAnchor.constraint(equalTo: coverImageView.trailingAnchor).isActive = true
+        nameLabel.leadingAnchor.constraint(equalTo: coverImageView.trailingAnchor, constant: 3).isActive = true
         nameLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         deleteButton.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        deleteButton.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor).isActive = true
+        deleteButton.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor, constant: 3).isActive = true
         deleteButton.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         deleteButton.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         deleteButton.widthAnchor.constraint(equalTo: self.heightAnchor).isActive = true
     }
     
-    func setupData(_ image: UIImage?, _ name: String) {
-        print("///////// set image - coverImageView \(coverImageView.frame) //////")
+    func setupData(_ image: UIImage?, _ firstName: String, _ lastName: String) {
         if let image = image {
             coverImageView.image = image
+        } else {
+            
         }
-        nameLabel.text = name
-        //測試用
-        nameLabel.backgroundColor = UIColor.blue
-        deleteButton.backgroundColor = UIColor.yellow
+        if let lastNameChar = lastName.first {
+            nameLabel.text = firstName + " " + String(lastNameChar) + "."
+        }
     }
 }

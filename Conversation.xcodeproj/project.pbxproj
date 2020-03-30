@@ -26,6 +26,8 @@
 		A85C5C3D242E3C66001F369D /* TagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85C5C3C242E3C66001F369D /* TagCell.swift */; };
 		A85C5C40242E4717001F369D /* Bindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85C5C3F242E4717001F369D /* Bindable.swift */; };
 		A8F7A01A242F900300122FD7 /* AlexCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F7A019242F900300122FD7 /* AlexCell.swift */; };
+		A8F7A03C2430D88200122FD7 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F7A03B2430D88200122FD7 /* LeftAlignedCollectionViewFlowLayout.swift */; };
+		A8F7A03E2430E5E300122FD7 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F7A03D2430E5E300122FD7 /* UIColor+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +52,8 @@
 		A85C5C3C242E3C66001F369D /* TagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCell.swift; sourceTree = "<group>"; };
 		A85C5C3F242E4717001F369D /* Bindable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bindable.swift; sourceTree = "<group>"; };
 		A8F7A019242F900300122FD7 /* AlexCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlexCell.swift; sourceTree = "<group>"; };
+		A8F7A03B2430D88200122FD7 /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
+		A8F7A03D2430E5E300122FD7 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +146,7 @@
 			children = (
 				A85C5C32242BA480001F369D /* UITableView+Extension.swift */,
 				A85C5C3A242E3AD9001F369D /* UICollectionView+Extension.swift */,
+				A8F7A03D2430E5E300122FD7 /* UIColor+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -150,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				A85C5C3F242E4717001F369D /* Bindable.swift */,
+				A8F7A03B2430D88200122FD7 /* LeftAlignedCollectionViewFlowLayout.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -234,7 +240,9 @@
 				A85C5C12242A2CA0001F369D /* ViewController.swift in Sources */,
 				A8F7A01A242F900300122FD7 /* AlexCell.swift in Sources */,
 				A85C5C29242A5A52001F369D /* ConversationViewController.swift in Sources */,
+				A8F7A03E2430E5E300122FD7 /* UIColor+Extension.swift in Sources */,
 				A85C5C0E242A2CA0001F369D /* AppDelegate.swift in Sources */,
+				A8F7A03C2430D88200122FD7 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				A85C5C10242A2CA0001F369D /* SceneDelegate.swift in Sources */,
 				A85C5C30242ADC75001F369D /* FriendListCell.swift in Sources */,
 				A85C5C3D242E3C66001F369D /* TagCell.swift in Sources */,

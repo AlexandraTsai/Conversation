@@ -32,6 +32,7 @@ class ConversationViewController: UIViewController {
 //            toCollectionView.registerCellWithNib(identifier: String(describing: AlexCell.self), bundle: nil)
             toCollectionView.register(AlexCell.self, forCellWithReuseIdentifier: String(describing: AlexCell.self))
             toCollectionView.contentInset = UIEdgeInsets(top: 14.5, left: 20, bottom: 14.5, right: 20)
+            toCollectionView.collectionViewLayout = LeftAlignedCollectionViewFlowLayout()
         }
     }
         
@@ -94,7 +95,6 @@ class ConversationViewController: UIViewController {
         returnBtn.centerYAnchor.constraint(equalTo: returnView.centerYAnchor).isActive = true
         returnBtn.centerXAnchor.constraint(equalTo: returnView.centerXAnchor).isActive = true
         returnBtn.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        returnBtn.backgroundColor = UIColor.red
 //        returnBtn.addTarget(self, action: returnButtonTapped(), for: .touchUpInside)
     }
     
@@ -153,29 +153,17 @@ extension ConversationViewController: UICollectionViewDelegate, UICollectionView
 //        return tagCell
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: AlexCell.self), for: indexPath)
-//
         guard let tagCell = cell as? AlexCell else { return cell }
-
-        var friend = selectedFriend[indexPath.row]
-        tagCell.setupData(friend.image, friend.showName)
-//        cell.setNeedsLayout()
-//        cell.layoutIfNeeded()
-        cell.backgroundColor = UIColor.red
-        print("-------cellForItemAt------")
-        print(tagCell.bounds)
-        print(tagCell.coverImageView.frame)
-        print(tagCell.nameLabel.frame)
-        print(tagCell.deleteButton.frame)
+        let friend = selectedFriend[indexPath.row]
+        tagCell.setupData(friend.image, friend.firstName, friend.lastName)
         return tagCell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let name = NSString(string: selectedFriend[indexPath.row].showName)
-        
         let size: CGSize = name.size(withAttributes:  [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 13.0)])
-        print("size.width \(size.width)")
-        return CGSize(width: size.width, height: 23)
+        return CGSize(width: size.width + (23 + 3) * 2 , height: 23)
     }
 }
 

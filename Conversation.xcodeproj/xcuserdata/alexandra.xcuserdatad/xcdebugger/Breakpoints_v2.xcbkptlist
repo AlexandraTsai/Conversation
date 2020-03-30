@@ -7,65 +7,79 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "817806AC-CADD-4E97-BA4B-F56A7068080C"
+            uuid = "E7586358-F7CD-4358-899D-2AEEB4CBCBF1"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Conversation/ViewController/ConversationViewController.swift"
+            filePath = "Conversation/Extension/UIColor+Extension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "178"
-            endingLineNumber = "178"
-            landmarkName = "collectionView(_:layout:sizeForItemAt:)"
+            startingLineNumber = "19"
+            endingLineNumber = "19"
+            landmarkName = "init(hexString:alpha:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "1B69DA06-688A-49C9-B804-0E855AFF4BBF"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Conversation/ViewController/ConversationViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "155"
-            endingLineNumber = "155"
-            landmarkName = "collectionView(_:cellForItemAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "0975556F-284A-4CA4-94B5-E2BD8214BEAB"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Conversation/ViewController/ConversationViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "157"
-            endingLineNumber = "157"
-            landmarkName = "collectionView(_:cellForItemAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "56E4299F-4385-4E5E-BCEE-5EFDE13B0616"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Conversation/View/AlexCell.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
-            landmarkName = "setupData(_:_:)"
-            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "E7586358-F7CD-4358-899D-2AEEB4CBCBF1 - c95b111d3feeb787"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(extension in Conversation):__C.UIColor.init(hexString: Swift.String, alpha: CoreGraphics.CGFloat) -&gt; __C.UIColor"
+                  moduleName = "Conversation"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexandra/swift/MVVM/Conversation/Conversation/Extension/UIColor+Extension.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "19"
+                  endingLineNumber = "19"
+                  offsetFromSymbolStart = "452">
+               </Location>
+               <Location
+                  uuid = "E7586358-F7CD-4358-899D-2AEEB4CBCBF1 - c95b111d3feeb787"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(extension in Conversation):__C.UIColor.init(hexString: Swift.String, alpha: CoreGraphics.CGFloat) -&gt; __C.UIColor"
+                  moduleName = "Conversation"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexandra/swift/MVVM/Conversation/Conversation/Extension/UIColor+Extension.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "19"
+                  endingLineNumber = "19"
+                  offsetFromSymbolStart = "457">
+               </Location>
+               <Location
+                  uuid = "E7586358-F7CD-4358-899D-2AEEB4CBCBF1 - c95b111d3feeb787"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(extension in Conversation):__C.UIColor.init(hexString: Swift.String, alpha: CoreGraphics.CGFloat) -&gt; __C.UIColor"
+                  moduleName = "Conversation"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexandra/swift/MVVM/Conversation/Conversation/Extension/UIColor+Extension.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "19"
+                  endingLineNumber = "19"
+                  offsetFromSymbolStart = "1617">
+               </Location>
+               <Location
+                  uuid = "E7586358-F7CD-4358-899D-2AEEB4CBCBF1 - c95b111d3feeb787"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(extension in Conversation):__C.UIColor.init(hexString: Swift.String, alpha: CoreGraphics.CGFloat) -&gt; __C.UIColor"
+                  moduleName = "Conversation"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexandra/swift/MVVM/Conversation/Conversation/Extension/UIColor+Extension.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "19"
+                  endingLineNumber = "19"
+                  offsetFromSymbolStart = "2672">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
