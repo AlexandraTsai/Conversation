@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol AlexCellProtocol: class {
+    func didTapCancelButtonInCell(_ cell: AlexCell)
+}
+
 class AlexCell: UICollectionViewCell {
     
     let coverImageView: UIImageView = {
@@ -33,6 +37,8 @@ class AlexCell: UICollectionViewCell {
         button.setTitleColor(UIColor.init(hexString: "C2C9D6"), for: .normal)
         return button
     }()
+    
+    weak var delegate: AlexCellProtocol?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -71,5 +77,9 @@ class AlexCell: UICollectionViewCell {
             
         }
         nameLabel.text = name
+    }
+    
+    @objc func didTapCancelButton(sender: UIButton) {
+        delegate?.didTapCancelButtonInCell(self)
     }
 }

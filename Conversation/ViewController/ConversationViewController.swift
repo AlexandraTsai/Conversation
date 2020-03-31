@@ -65,12 +65,6 @@ class ConversationViewController: UIViewController {
     
     let viewModel = ConversationViewModel()
     
-    var selectedFriend = [Friend]() {
-        didSet {
-            toCollectionView.reloadData()
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupFriendListTableView()
@@ -83,11 +77,17 @@ class ConversationViewController: UIViewController {
         viewModel.friendList.bind { [weak self] friendList in
             DispatchQueue.main.async {
                 self?.friendListTableView.reloadData()
-                self?.toCollectionView.reloadData()
                 DispatchQueue.main.async {
                     self?.textfield.becomeFirstResponder()
                     self?.adjustCollectionViewHeight()
                 }
+            }
+        }
+        viewModel.selectedFriend.bind { [weak self] friendList in
+            self?.toCollectionView.reloadData()
+            DispatchQueue.main.async {
+                self?.textfield.becomeFirstResponder()
+                self?.adjustCollectionViewHeight()
             }
         }
     }
@@ -109,14 +109,22 @@ class ConversationViewController: UIViewController {
     }
     
     private func adjustCollectionViewHeight() {
-        if (self.toCollectionView.contentSize.height == 23 * 2 + 10) || (self.toCollectionView.contentSize.height == 23 * 3 + 10) {
-            self.toCollectionView.heightConstraint.constant += 33
+        switch toCollectionView.contentSize.height {
+        case (23 * 1 + 10):
+            toCollectionView.heightConstraint.constant = 52
+        case (23 * 2 + 10):
+            toCollectionView.heightConstraint.constant = 85
+        case (23 * 3 + 10):
+            toCollectionView.heightConstraint.constant = 118
+        default:
+            break
         }
     }
 
     //MARK: - Keyboard
     private func setupReturnView() {
         keyboardReturnView.clipsToBounds = false
+        keyboardReturnView.backgroundColor = .white
         let returnBtn = UIButton()
         returnBtn.setImage(UIImage(named: "close_arrow_btn"), for: .normal)
         keyboardReturnView.addSubview(returnBtn)
@@ -136,6 +144,10 @@ class ConversationViewController: UIViewController {
     @objc func collectionViewDidTap() {
         textfield.becomeFirstResponder()
     }
+    
+    @objc func didTapCancelFriendButton(sender: UIButton) {
+        viewModel.deselectFriendAt(index: sender.tag)
+    }
 }
 
 //MARK: - TextView Delegate
@@ -152,7 +164,7 @@ extension ConversationViewController: UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         friendListTableView.isHidden = true
-        if selectedFriend.count == 0 {
+        if viewModel.selectedFriend.value.count == 0 {
             toTextView.placeholderLabel.font = UIFont.systemFont(ofSize: 17)
             UIView.animate(withDuration: 0.5) {
                 self.toTextView.placeHolderTopConstraint.constant = (self.toTextView.bounds.height - self.toTextView.placeholderLabel.bounds.height)/2
@@ -177,7 +189,7 @@ extension ConversationViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
 //        endEditing = false
         showFriendList()
-        if selectedFriend.count == 0 {
+        if viewModel.selectedFriend.value.count == 0 {
             toCollectionView.placeholderLabel.font = UIFont.systemFont(ofSize: 10)
             UIView.animate(withDuration: 0.5) {
                 self.toCollectionView.placeHolderTopConstraint.constant = 0
@@ -187,14 +199,13 @@ extension ConversationViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-//        return endEditing
         return true
     }
        
     func textFieldDidEndEditing(_ textField: UITextField) {
         friendListTableView.isHidden = true
         
-        if selectedFriend.count == 0 {
+        if viewModel.selectedFriend.value.count == 0 {
             toCollectionView.placeholderLabel.font = UIFont.systemFont(ofSize: 17)
             UIView.animate(withDuration: 0.5) {
                 self.toCollectionView.placeHolderTopConstraint.constant = (self.toCollectionView.bounds.height - self.toCollectionView.placeholderLabel.bounds.height)/2
@@ -216,7 +227,7 @@ extension ConversationViewController: UIGestureRecognizerDelegate { }
 extension ConversationViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return selectedFriend.count + 1
+        return viewModel.selectedFriend.value.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -230,8 +241,10 @@ extension ConversationViewController: UICollectionViewDelegate, UICollectionView
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: AlexCell.self), for: indexPath)
         guard let tagCell = cell as? AlexCell else { return cell }
-        var friend = selectedFriend[indexPath.row]
+        var friend = viewModel.selectedFriend.value[indexPath.row]
         tagCell.setupData(friend.image, friend.tagName)
+        tagCell.deleteButton.addTarget(self, action: #selector(didTapCancelFriendButton), for: .touchUpInside)
+        tagCell.deleteButton.tag = indexPath.row
         return tagCell
     }
     
@@ -240,7 +253,7 @@ extension ConversationViewController: UICollectionViewDelegate, UICollectionView
         if isTextfieldCell(collectionView, at: indexPath) {
             return CGSize(width: 100, height: 23)
         } else {
-            let name = NSString(string: selectedFriend[indexPath.row].tagName)
+            let name = NSString(string: viewModel.selectedFriend.value[indexPath.row].tagName)
             let size: CGSize = name.size(withAttributes:  [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 13.0)])
             return CGSize(width: size.width + (23 + 3) * 2 , height: 23)
         }
@@ -277,7 +290,7 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedFriend.append(viewModel.friendList.value[indexPath.row])
+        viewModel.selectFriendFromList(atIndex: indexPath.row)
         DispatchQueue.global().async {
             self.viewModel.removeFriendListAt(indexPath.row)
         }

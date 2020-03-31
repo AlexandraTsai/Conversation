@@ -11,11 +11,9 @@ import UIKit
 
 class ConversationViewModel {
     
-    var friendList: Bindable<[Friend]> = Bindable<[Friend]>([Friend]()) {
-        didSet {
-            print(friendList.value)
-        }
-    }
+    var friendList: Bindable<[Friend]> = Bindable<[Friend]>([Friend]()) 
+    
+    var selectedFriend: Bindable<[Friend]> = Bindable<[Friend]>([Friend]())
     
     init() {
         self.fetchFriends()
@@ -32,6 +30,19 @@ class ConversationViewModel {
         var originList = friendList.value
         originList.remove(at: index)
         friendList.value = originList
+    }
+    
+    func deselectFriendAt(index: Int) {
+        var selectedFriends = selectedFriend.value
+        selectedFriends.remove(at: index)
+        selectedFriend.value = selectedFriends
+    }
+    
+    func selectFriendFromList(atIndex index: Int) {
+        let friend = friendList.value[index]
+        var selectedFriends = selectedFriend.value
+        selectedFriends.append(friend)
+        selectedFriend.value = selectedFriends
     }
 }
 
