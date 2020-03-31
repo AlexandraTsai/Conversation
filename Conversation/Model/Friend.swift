@@ -10,9 +10,21 @@ import Foundation
 import UIKit
 
 struct Friend {
+    
     let firstName: String
+    
     let lastName: String
+    
     lazy var showName: String = self.firstName + " " + self.lastName
+    
+    lazy var tagName: String = {
+        if let char = self.lastName.first {
+            return self.firstName + " " + String(char) + "."
+        }
+        return ""
+    }()
+    
     let email: String
+    
     let image: UIImage?
 }

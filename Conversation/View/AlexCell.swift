@@ -64,14 +64,12 @@ class AlexCell: UICollectionViewCell {
         deleteButton.widthAnchor.constraint(equalTo: self.heightAnchor).isActive = true
     }
     
-    func setupData(_ image: UIImage?, _ firstName: String, _ lastName: String) {
+    func setupData(_ image: UIImage?, _ name: String) {
         if let image = image {
             coverImageView.image = image
         } else {
             
         }
-        if let lastNameChar = lastName.first {
-            nameLabel.text = firstName + " " + String(lastNameChar) + "."
-        }
+        nameLabel.text = name
     }
 }

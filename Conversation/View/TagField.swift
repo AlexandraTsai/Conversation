@@ -14,6 +14,8 @@ class TagField: UICollectionView {
     
     @IBOutlet weak var placeHolderTopConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var heightConstraint: NSLayoutConstraint!
+    
     var floatingLabel: UILabel = UILabel()
     
     override class func awakeFromNib() {

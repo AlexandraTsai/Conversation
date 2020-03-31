@@ -7,47 +7,47 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "1D89BBB7-4CCD-4E85-A98D-9A7B4A9532B3"
+            uuid = "01867323-E398-4F11-B0AC-9808D7A044C8"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Conversation/ViewController/ConversationViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "85"
-            endingLineNumber = "85"
-            landmarkName = "bindViewModel()"
+            startingLineNumber = "155"
+            endingLineNumber = "155"
+            landmarkName = "textViewDidEndEditing(_:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "1D89BBB7-4CCD-4E85-A98D-9A7B4A9532B3 - 42e4ce18a57bae1a"
+                  uuid = "01867323-E398-4F11-B0AC-9808D7A044C8 - a69e2f1674d913d1"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Array&lt;Conversation.Friend&gt;) -&gt; () in Conversation.ConversationViewController.(bindViewModel in _CB9B68B89B059E31838A70B11E8DC8DD)() -&gt; ()"
+                  symbolName = "Conversation.ConversationViewController.textViewDidEndEditing(__C.UITextView) -&gt; ()"
                   moduleName = "Conversation"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/alexandra/swift/MVVM/Conversation/Conversation/ViewController/ConversationViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "84"
-                  endingLineNumber = "84"
-                  offsetFromSymbolStart = "162">
+                  startingLineNumber = "154"
+                  endingLineNumber = "154"
+                  offsetFromSymbolStart = "733">
                </Location>
                <Location
-                  uuid = "1D89BBB7-4CCD-4E85-A98D-9A7B4A9532B3 - 17e4c8c98a61bf67"
+                  uuid = "01867323-E398-4F11-B0AC-9808D7A044C8 - 1066939a7a348ea9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; () in closure #1 (Swift.Array&lt;Conversation.Friend&gt;) -&gt; () in Conversation.ConversationViewController.(bindViewModel in _CB9B68B89B059E31838A70B11E8DC8DD)() -&gt; ()"
+                  symbolName = "closure #1 () -&gt; () in Conversation.ConversationViewController.textViewDidEndEditing(__C.UITextView) -&gt; ()"
                   moduleName = "Conversation"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/alexandra/swift/MVVM/Conversation/Conversation/ViewController/ConversationViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "83"
-                  endingLineNumber = "83"
-                  offsetFromSymbolStart = "48">
+                  startingLineNumber = "155"
+                  endingLineNumber = "155"
+                  offsetFromSymbolStart = "64">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -55,16 +55,48 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "09D9CC76-A764-498A-96DE-90E14EE16FF0"
+            uuid = "0202768E-C69F-4166-ADAC-888D3810B152"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Conversation/ViewController/ConversationViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "213"
-            endingLineNumber = "213"
-            landmarkName = "collectionView(_:numberOfItemsInSection:)"
+            startingLineNumber = "178"
+            endingLineNumber = "178"
+            landmarkName = "textFieldDidBeginEditing(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B5426DE4-08A6-40F1-A295-6936274DCFA7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Conversation/ViewController/ConversationViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "239"
+            endingLineNumber = "239"
+            landmarkName = "collectionView(_:layout:sizeForItemAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6894CDDA-D472-4C65-9C1E-1D4B44D78940"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Conversation/ViewController/ConversationViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "241"
+            endingLineNumber = "241"
+            landmarkName = "collectionView(_:layout:sizeForItemAt:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

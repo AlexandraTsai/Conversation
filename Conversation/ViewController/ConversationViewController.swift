@@ -56,7 +56,6 @@ class ConversationViewController: UIViewController {
     
     lazy var textfield: UITextField = {
         let textfield = UITextField()
-        print("------textField \(textfield)-------")
         textfield.inputAccessoryView = keyboardReturnView
         textfield.delegate = self
         return textfield
@@ -87,6 +86,7 @@ class ConversationViewController: UIViewController {
                 self?.toCollectionView.reloadData()
                 DispatchQueue.main.async {
                     self?.textfield.becomeFirstResponder()
+                    self?.adjustCollectionViewHeight()
                 }
             }
         }
@@ -106,6 +106,12 @@ class ConversationViewController: UIViewController {
     private func showFriendList() {
         friendListTableView.isHidden = false
         friendListTableView.reloadData()
+    }
+    
+    private func adjustCollectionViewHeight() {
+        if (self.toCollectionView.contentSize.height == 23 * 2 + 10) || (self.toCollectionView.contentSize.height == 23 * 3 + 10) {
+            self.toCollectionView.heightConstraint.constant += 33
+        }
     }
 
     //MARK: - Keyboard
@@ -146,10 +152,12 @@ extension ConversationViewController: UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         friendListTableView.isHidden = true
-        toTextView.placeholderLabel.font = UIFont.systemFont(ofSize: 17)
-        UIView.animate(withDuration: 0.5) {
-            self.toTextView.placeHolderTopConstraint.constant = (self.toTextView.bounds.height - self.toTextView.placeholderLabel.bounds.height)/2
-            self.view.layoutIfNeeded()
+        if selectedFriend.count == 0 {
+            toTextView.placeholderLabel.font = UIFont.systemFont(ofSize: 17)
+            UIView.animate(withDuration: 0.5) {
+                self.toTextView.placeHolderTopConstraint.constant = (self.toTextView.bounds.height - self.toTextView.placeholderLabel.bounds.height)/2
+                self.view.layoutIfNeeded()
+            }
         }
     }
     
@@ -169,31 +177,33 @@ extension ConversationViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
 //        endEditing = false
         showFriendList()
-        toCollectionView.placeholderLabel.font = UIFont.systemFont(ofSize: 10)
-        UIView.animate(withDuration: 0.5) {
-            self.toCollectionView.placeHolderTopConstraint.constant = 0
-            self.view.layoutIfNeeded()
+        if selectedFriend.count == 0 {
+            toCollectionView.placeholderLabel.font = UIFont.systemFont(ofSize: 10)
+            UIView.animate(withDuration: 0.5) {
+                self.toCollectionView.placeHolderTopConstraint.constant = 0
+                self.view.layoutIfNeeded()
+            }
         }
     }
     
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        print("textFieldShouldEndEditing")
 //        return endEditing
         return true
     }
        
     func textFieldDidEndEditing(_ textField: UITextField) {
-        print("textFieldDidEndEditing")
         friendListTableView.isHidden = true
-        toCollectionView.placeholderLabel.font = UIFont.systemFont(ofSize: 17)
-        UIView.animate(withDuration: 0.5) {
-            self.toCollectionView.placeHolderTopConstraint.constant = (self.toCollectionView.bounds.height - self.toCollectionView.placeholderLabel.bounds.height)/2
-            self.view.layoutIfNeeded()
+        
+        if selectedFriend.count == 0 {
+            toCollectionView.placeholderLabel.font = UIFont.systemFont(ofSize: 17)
+            UIView.animate(withDuration: 0.5) {
+                self.toCollectionView.placeHolderTopConstraint.constant = (self.toCollectionView.bounds.height - self.toCollectionView.placeholderLabel.bounds.height)/2
+                self.view.layoutIfNeeded()
+            }
         }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        print("textFieldShouldReturn")
 //        endEditing = true
         textField.resignFirstResponder()
         return true
@@ -210,41 +220,36 @@ extension ConversationViewController: UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        print("cellForItemAt")
         //The last cell
-        if indexPath.row == (collectionView.numberOfItems(inSection: 0) - 1) {
+        if isTextfieldCell(collectionView, at: indexPath) {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
             textfield.frame = cell.bounds
             cell.addSubview(textfield)
             return cell
         }
-        
-//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TagCell.self), for: indexPath)
-//
-//        guard let tagCell = cell as? TagCell else { return cell }
-//
-//        var friend = selectedFriend[indexPath.row]
-//        tagCell.setupWith(image:friend.image, name: friend.showName)
-//        return tagCell
-        
+
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: AlexCell.self), for: indexPath)
         guard let tagCell = cell as? AlexCell else { return cell }
-        let friend = selectedFriend[indexPath.row]
-        tagCell.setupData(friend.image, friend.firstName, friend.lastName)
+        var friend = selectedFriend[indexPath.row]
+        tagCell.setupData(friend.image, friend.tagName)
         return tagCell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        if (collectionView.cellForItem(at: indexPath) is AlexCell) {
-            let name = NSString(string: selectedFriend[indexPath.row].showName)
+        if isTextfieldCell(collectionView, at: indexPath) {
+            return CGSize(width: 100, height: 23)
+        } else {
+            let name = NSString(string: selectedFriend[indexPath.row].tagName)
             let size: CGSize = name.size(withAttributes:  [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 13.0)])
             return CGSize(width: size.width + (23 + 3) * 2 , height: 23)
-        } else {
-            return CGSize(width: 100, height: 23)
         }
-        
     }
+
+    func isTextfieldCell(_ collectionView: UICollectionView, at indexPath: IndexPath) -> Bool {
+        return (indexPath.row == (collectionView.numberOfItems(inSection: 0) - 1))
+    }
+    
 }
 
 
