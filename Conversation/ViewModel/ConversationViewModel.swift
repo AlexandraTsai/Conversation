@@ -15,12 +15,15 @@ class ConversationViewModel {
     
     var selectedFriend: Bindable<[Friend]> = Bindable<[Friend]>([Friend]())
     
+    var unselectedFriend: [Friend] = [Friend]()
+    
     init() {
         self.fetchFriends()
     }
     
     private func fetchFriends() {
         friendList.value = dummyFriendList
+        unselectedFriend = dummyFriendList
     }
     
     //MARK: - FriendList edit
@@ -70,6 +73,15 @@ class ConversationViewModel {
         selectedFriend.value = selectedFriends
     }
     
+    func filterFriendWith(_ text: String) {
+        var filteredFriends = [Friend]()
+        for index in 0..<unselectedFriend.count {
+            if unselectedFriend[index].showName.hasPrefix(text) {
+                filteredFriends.append(unselectedFriend[index])
+            }
+        }
+        friendList.value = filteredFriends
+    }
 }
 
 let dummyFriendList: Array<Friend> = [

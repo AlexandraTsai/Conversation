@@ -239,8 +239,10 @@ extension ConversationViewController: UITextViewDelegate {
     
 }
 
+//MARK: - TextField Delegate
 extension ConversationViewController: UITextFieldDelegate {
     
+    //MARK: - Begin
     func textFieldDidBeginEditing(_ textField: UITextField) {
 //        endEditing = false
         showFriendList()
@@ -253,6 +255,14 @@ extension ConversationViewController: UITextFieldDelegate {
         }
     }
     
+    //MARK: - Change
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        
+        guard let text = textField.text else { return }
+        viewModel.filterFriendWith(text)
+    }
+    
+    //MARK: - End
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         return true
     }
@@ -269,6 +279,7 @@ extension ConversationViewController: UITextFieldDelegate {
         }
     }
     
+    //MARK: - Return
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 //        endEditing = true
         checkTextfield()
