@@ -31,9 +31,19 @@ class ConversationViewController: UIViewController {
             toCollectionView.registerCellWithNib(identifier: String(describing: TagCell.self), bundle: nil)
             toCollectionView.register(AlexCell.self, forCellWithReuseIdentifier: String(describing: AlexCell.self))
             toCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: String(describing: "Cell"))
-            toCollectionView.contentInset = UIEdgeInsets(top: 14.5, left: 20, bottom: 14.5, right: 20)
-            toCollectionView.collectionViewLayout = LeftAlignedCollectionViewFlowLayout()
             
+            //ContentInset
+            let updnSpacing = (toCollectionView.bounds.height - tagCellHeight) / 2
+            toCollectionView.contentInset = UIEdgeInsets(top: updnSpacing,
+                                                         left: 20,
+                                                         bottom: updnSpacing,
+                                                         right: 20)
+            //FlowLayout
+            let layout = LeftAlignedCollectionViewFlowLayout()
+            layout.scrollDirection = .vertical
+            toCollectionView.collectionViewLayout = layout
+            
+            //Tap Gesture
             let tap = UITapGestureRecognizer(target: self, action: #selector(collectionViewDidTap))
             tap.numberOfTapsRequired = 1
             tap.numberOfTouchesRequired = 1
@@ -61,6 +71,18 @@ class ConversationViewController: UIViewController {
         return textfield
     }()
     
+    let tagCellHeight: CGFloat = 23
+    
+    let minimumLineSpacing: CGFloat = 10
+    
+    lazy var friendTagSecondRowHeight: CGFloat = {
+        return tagCellHeight * 2 + minimumLineSpacing
+    }()
+    
+    lazy var friendTagThirdRowHeight: CGFloat = {
+        return tagCellHeight * 3 + minimumLineSpacing * 2
+    }()
+    
 //    var endEditing: Bool = true
     
     let viewModel = ConversationViewModel()
@@ -84,6 +106,7 @@ class ConversationViewController: UIViewController {
             }
         }
         viewModel.selectedFriend.bind { [weak self] friendList in
+            self?.textfield.text = ""
             self?.toCollectionView.reloadData()
             DispatchQueue.main.async {
                 self?.textfield.becomeFirstResponder()
@@ -109,13 +132,12 @@ class ConversationViewController: UIViewController {
     }
     
     private func adjustCollectionViewHeight() {
-        switch toCollectionView.contentSize.height {
-        case (23 * 1 + 10):
+        let height = toCollectionView.contentSize.height
+        switch height {
+        case (tagCellHeight):
             toCollectionView.heightConstraint.constant = 52
-        case (23 * 2 + 10):
-            toCollectionView.heightConstraint.constant = 85
-        case (23 * 3 + 10):
-            toCollectionView.heightConstraint.constant = 118
+        case friendTagSecondRowHeight, friendTagThirdRowHeight:
+            toCollectionView.heightConstraint.constant = 52 + (height - tagCellHeight - minimumLineSpacing)
         default:
             break
         }
@@ -136,13 +158,38 @@ class ConversationViewController: UIViewController {
         returnBtn.addTarget(self, action: #selector(returnButtonTapped), for: .touchUpInside)
     }
     
+    private func checkTextfield() {
+        if textfield.text == "" {
+            textfield.resignFirstResponder()
+            toCollectionView.heightConstraint.constant = 52
+            if let layout = toCollectionView.collectionViewLayout as? LeftAlignedCollectionViewFlowLayout {
+                layout.scrollDirection = .horizontal
+            }
+        }
+        if let email = textfield.text,
+            email.isValidEmail() {
+            viewModel.insertInvitingFriendWith(email: email)
+        }
+    }
+
+    //MARK: - Tap Gesture Handler
     @objc func returnButtonTapped() {
-        textfield.resignFirstResponder()
-//        endEditing = true
+        checkTextfield()
     }
     
     @objc func collectionViewDidTap() {
         textfield.becomeFirstResponder()
+        if let layout = toCollectionView.collectionViewLayout as? LeftAlignedCollectionViewFlowLayout {
+            layout.scrollDirection = .vertical
+        }
+        print("============================")
+        print(toCollectionView.contentSize)
+        toCollectionView.contentSize.width = toCollectionView.bounds.width - 40
+        toCollectionView.layoutIfNeeded()
+        adjustCollectionViewHeight()
+        textfield.becomeFirstResponder()
+        print(toCollectionView.contentSize)
+
     }
     
     @objc func didTapCancelFriendButton(sender: UIButton) {
@@ -216,7 +263,7 @@ extension ConversationViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 //        endEditing = true
-        textField.resignFirstResponder()
+        checkTextfield()
         return true
     }
 }
@@ -224,7 +271,7 @@ extension ConversationViewController: UITextFieldDelegate {
 extension ConversationViewController: UIGestureRecognizerDelegate { }
 
 //MARK: - CollectionView Delegate & DataSource
-extension ConversationViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension ConversationViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.selectedFriend.value.count + 1
@@ -251,11 +298,11 @@ extension ConversationViewController: UICollectionViewDelegate, UICollectionView
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         if isTextfieldCell(collectionView, at: indexPath) {
-            return CGSize(width: 100, height: 23)
+            return CGSize(width: 100, height: tagCellHeight)
         } else {
             let name = NSString(string: viewModel.selectedFriend.value[indexPath.row].tagName)
             let size: CGSize = name.size(withAttributes:  [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 13.0)])
-            return CGSize(width: size.width + (23 + 3) * 2 , height: 23)
+            return CGSize(width: size.width + (tagCellHeight + 3) * 2 , height: tagCellHeight)
         }
     }
 
@@ -263,6 +310,14 @@ extension ConversationViewController: UICollectionViewDelegate, UICollectionView
         return (indexPath.row == (collectionView.numberOfItems(inSection: 0) - 1))
     }
     
+}
+
+//MARK: - CollectionViewDelegateFlowLayout
+extension ConversationViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return minimumLineSpacing
+    }
 }
 
 

@@ -74,7 +74,7 @@ class AlexCell: UICollectionViewCell {
         if let image = image {
             coverImageView.image = image
         } else {
-            
+            coverImageView.backgroundColor = UIColor.gray
         }
         nameLabel.text = name
     }

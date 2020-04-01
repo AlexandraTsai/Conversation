@@ -7,17 +7,80 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "2E45AA79-59E5-4674-9BD6-16C51B8B288D"
+            uuid = "90BE4562-2285-4D0F-8336-7DA7E7B1CE7E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Conversation/ViewController/ConversationViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "320"
+            endingLineNumber = "320"
+            landmarkName = "collectionView(_:layout:minimumLineSpacingForSectionAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2C2AFEC3-109F-49F3-9312-8F058A428D40"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Conversation/View/TagField.swift"
+            filePath = "Conversation/ViewController/ConversationViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "22"
-            endingLineNumber = "22"
-            landmarkName = "awakeFromNib()"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
+            landmarkName = "adjustCollectionViewHeight()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "2C2AFEC3-109F-49F3-9312-8F058A428D40 - 65cc78f16c0073f0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Conversation.ConversationViewController.(adjustCollectionViewHeight in _CB9B68B89B059E31838A70B11E8DC8DD)() -&gt; ()"
+                  moduleName = "Conversation"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexandra/swift/MVVM/Conversation/Conversation/ViewController/ConversationViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "137"
+                  endingLineNumber = "137"
+                  offsetFromSymbolStart = "940">
+               </Location>
+               <Location
+                  uuid = "2C2AFEC3-109F-49F3-9312-8F058A428D40 - 65cc78f16c0073f0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Conversation.ConversationViewController.(adjustCollectionViewHeight in _CB9B68B89B059E31838A70B11E8DC8DD)() -&gt; ()"
+                  moduleName = "Conversation"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexandra/swift/MVVM/Conversation/Conversation/ViewController/ConversationViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "137"
+                  endingLineNumber = "137"
+                  offsetFromSymbolStart = "1627">
+               </Location>
+               <Location
+                  uuid = "2C2AFEC3-109F-49F3-9312-8F058A428D40 - 65cc78f16c0073f0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Conversation.ConversationViewController.(adjustCollectionViewHeight in _CB9B68B89B059E31838A70B11E8DC8DD)() -&gt; ()"
+                  moduleName = "Conversation"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexandra/swift/MVVM/Conversation/Conversation/ViewController/ConversationViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "137"
+                  endingLineNumber = "137"
+                  offsetFromSymbolStart = "1689">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

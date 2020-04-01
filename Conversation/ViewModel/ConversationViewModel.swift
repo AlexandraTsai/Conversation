@@ -23,6 +23,7 @@ class ConversationViewModel {
         friendList.value = dummyFriendList
     }
     
+    //MARK: - FriendList edit
     func removeFriendListAt(_ index: Int) {
         guard index < friendList.value.count else {
             return
@@ -32,10 +33,22 @@ class ConversationViewModel {
         friendList.value = originList
     }
     
+    func addBackFriend(_ friend: Friend) {
+        var originList = friendList.value
+       originList.append(friend)
+       friendList.value = originList
+    }
+    
+    //MARK: - Selected Friend edit
     func deselectFriendAt(index: Int) {
+        var friendToBeRemove = selectedFriend.value[index]
         var selectedFriends = selectedFriend.value
         selectedFriends.remove(at: index)
         selectedFriend.value = selectedFriends
+        
+        if friendToBeRemove.tagName != friendToBeRemove.email {
+            addBackFriend(friendToBeRemove)
+        }
     }
     
     func selectFriendFromList(atIndex index: Int) {
@@ -44,6 +57,19 @@ class ConversationViewModel {
         selectedFriends.append(friend)
         selectedFriend.value = selectedFriends
     }
+    
+    func insertInvitingFriendWith(email: String) {
+        let friend = Friend(firstName: email,
+                            lastName: email,
+                            showName: email,
+                            tagName: email,
+                            email: email,
+                            image: UIImage(named: "inviting"))
+        var selectedFriends = selectedFriend.value
+        selectedFriends.append(friend)
+        selectedFriend.value = selectedFriends
+    }
+    
 }
 
 let dummyFriendList: Array<Friend> = [
