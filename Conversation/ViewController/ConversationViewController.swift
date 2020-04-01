@@ -165,10 +165,22 @@ class ConversationViewController: UIViewController {
             if let layout = toCollectionView.collectionViewLayout as? LeftAlignedCollectionViewFlowLayout {
                 layout.scrollDirection = .horizontal
             }
+            return
         }
-        if let email = textfield.text,
-            email.isValidEmail() {
+        guard let email = textfield.text else { return }
+        if email.isValidEmail() {
             viewModel.insertInvitingFriendWith(email: email)
+        } else {
+            let alert = UIAlertController(title: "Not a valid email. Please try a valid email address",
+                                          message: nil,
+                                          preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK",
+                                         style: .default,
+                                         handler: nil)
+            alert.addAction(okAction)
+            present(alert, animated: true, completion: { [weak self] in
+                self?.textfield.text = nil
+            })
         }
     }
 
