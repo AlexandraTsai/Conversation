@@ -194,14 +194,10 @@ class ConversationViewController: UIViewController {
         if let layout = toCollectionView.collectionViewLayout as? LeftAlignedCollectionViewFlowLayout {
             layout.scrollDirection = .vertical
         }
-        print("============================")
-        print(toCollectionView.contentSize)
         toCollectionView.contentSize.width = toCollectionView.bounds.width - 40
         toCollectionView.layoutIfNeeded()
         adjustCollectionViewHeight()
         textfield.becomeFirstResponder()
-        print(toCollectionView.contentSize)
-
     }
     
     @objc func didTapCancelFriendButton(sender: UIButton) {
