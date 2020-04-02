@@ -30,6 +30,8 @@
 		A8F7A03E2430E5E300122FD7 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F7A03D2430E5E300122FD7 /* UIColor+Extension.swift */; };
 		A8F7A04024336D6700122FD7 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F7A03F24336D6700122FD7 /* String+Extension.swift */; };
 		A8F7A04224358F4A00122FD7 /* CountDownLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F7A04124358F4A00122FD7 /* CountDownLabel.swift */; };
+		A8F7A0442435A1FF00122FD7 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F7A0432435A1FF00122FD7 /* UIView+Extension.swift */; };
+		A8F7A0462435A7D100122FD7 /* MessageTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F7A0452435A7D100122FD7 /* MessageTextView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +60,8 @@
 		A8F7A03D2430E5E300122FD7 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		A8F7A03F24336D6700122FD7 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		A8F7A04124358F4A00122FD7 /* CountDownLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDownLabel.swift; sourceTree = "<group>"; };
+		A8F7A0432435A1FF00122FD7 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		A8F7A0452435A7D100122FD7 /* MessageTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTextView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +146,7 @@
 				A85C5C3C242E3C66001F369D /* TagCell.swift */,
 				A8F7A019242F900300122FD7 /* AlexCell.swift */,
 				A8F7A04124358F4A00122FD7 /* CountDownLabel.swift */,
+				A8F7A0452435A7D100122FD7 /* MessageTextView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -153,6 +158,7 @@
 				A85C5C3A242E3AD9001F369D /* UICollectionView+Extension.swift */,
 				A8F7A03D2430E5E300122FD7 /* UIColor+Extension.swift */,
 				A8F7A03F24336D6700122FD7 /* String+Extension.swift */,
+				A8F7A0432435A1FF00122FD7 /* UIView+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -240,6 +246,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A85C5C40242E4717001F369D /* Bindable.swift in Sources */,
+				A8F7A0462435A7D100122FD7 /* MessageTextView.swift in Sources */,
 				A85C5C35242CCB04001F369D /* FloatingTextView.swift in Sources */,
 				A85C5C3B242E3AD9001F369D /* UICollectionView+Extension.swift in Sources */,
 				A85C5C26242A53F9001F369D /* ConversationViewModel.swift in Sources */,
@@ -251,6 +258,7 @@
 				A8F7A04024336D6700122FD7 /* String+Extension.swift in Sources */,
 				A85C5C0E242A2CA0001F369D /* AppDelegate.swift in Sources */,
 				A8F7A03C2430D88200122FD7 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
+				A8F7A0442435A1FF00122FD7 /* UIView+Extension.swift in Sources */,
 				A85C5C10242A2CA0001F369D /* SceneDelegate.swift in Sources */,
 				A85C5C30242ADC75001F369D /* FriendListCell.swift in Sources */,
 				A85C5C3D242E3C66001F369D /* TagCell.swift in Sources */,
