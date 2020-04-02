@@ -14,19 +14,18 @@ class FloatingTextView: UITextView {
     
     @IBOutlet weak var placeHolderTopConstraint: NSLayoutConstraint!
     
-    var floatingLabel: UILabel = UILabel()
-    
-    override class func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
     required init?(coder: NSCoder) {
        super.init(coder: coder)
+        self.textContainerInset = UIEdgeInsets(top: 14.5,
+                                               left: 20,
+                                               bottom: 14.5,
+                                               right: 20)
     }
-        
-    override init(frame: CGRect, textContainer: NSTextContainer?) {
-        super.init(frame: frame, textContainer: textContainer)
-        
+    
+    @IBOutlet weak var countDownLabel: CountDownLabel! {
+        didSet {
+            countDownLabel.maxChar = 85
+        }
     }
     
 }

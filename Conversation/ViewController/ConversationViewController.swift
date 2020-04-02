@@ -10,20 +10,6 @@ import UIKit
 
 class ConversationViewController: UIViewController {
     
-    @IBOutlet weak var toTextView: FloatingTextView! {
-        didSet {
-            toTextView.delegate = self
-            toTextView.inputAccessoryView = keyboardReturnView
-        }
-    }
-    
-    @IBOutlet weak var subjectTextView: UITextView! {
-        didSet {
-            subjectTextView.delegate = self
-            subjectTextView.inputAccessoryView = keyboardReturnView
-        }
-    }
-    
     @IBOutlet weak var toCollectionView: TagField! {
         didSet {
             toCollectionView.delegate = self
@@ -52,6 +38,14 @@ class ConversationViewController: UIViewController {
         }
     }
         
+    @IBOutlet weak var subjectTextView: FloatingTextView! {
+         didSet {
+             subjectTextView.delegate = self
+         }
+     }
+    
+    @IBOutlet weak var textViewHeight: NSLayoutConstraint!
+    
     var friendListTableView = UITableView() {
         didSet {
             self.friendListTableView.delegate = self
@@ -104,6 +98,7 @@ class ConversationViewController: UIViewController {
                     self?.adjustCollectionViewHeight()
                 }
             }
+            
         }
         viewModel.selectedFriend.bind { [weak self] friendList in
             self?.textfield.text = ""
@@ -120,7 +115,7 @@ class ConversationViewController: UIViewController {
         friendListTableView = UITableView()
         view.addSubview(friendListTableView)
         friendListTableView.translatesAutoresizingMaskIntoConstraints = false
-        friendListTableView.topAnchor.constraint(equalTo: toTextView.bottomAnchor, constant: 10).isActive = true
+        friendListTableView.topAnchor.constraint(equalTo: toCollectionView.bottomAnchor, constant: 10).isActive = true
         friendListTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         friendListTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         friendListTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
@@ -209,20 +204,18 @@ class ConversationViewController: UIViewController {
 extension ConversationViewController: UITextViewDelegate {
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        showFriendList()
-        toTextView.placeholderLabel.font = UIFont.systemFont(ofSize: 10)
+        subjectTextView.placeholderLabel.font = UIFont.systemFont(ofSize: 10)
         UIView.animate(withDuration: 0.5) {
-            self.toTextView.placeHolderTopConstraint.constant = 0
+            self.subjectTextView.placeHolderTopConstraint.constant = 0
             self.view.layoutIfNeeded()
         }
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        friendListTableView.isHidden = true
-        if viewModel.selectedFriend.value.count == 0 {
-            toTextView.placeholderLabel.font = UIFont.systemFont(ofSize: 17)
+        if textView.text == nil {
+            subjectTextView.placeholderLabel.font = UIFont.systemFont(ofSize: 17)
             UIView.animate(withDuration: 0.5) {
-                self.toTextView.placeHolderTopConstraint.constant = (self.toTextView.bounds.height - self.toTextView.placeholderLabel.bounds.height)/2
+                self.subjectTextView.placeHolderTopConstraint.constant = (self.subjectTextView.bounds.height - self.subjectTextView.placeholderLabel.bounds.height)/2
                 self.view.layoutIfNeeded()
             }
         }
@@ -235,6 +228,20 @@ extension ConversationViewController: UITextViewDelegate {
             return false
         }
         return true
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        
+        subjectTextView.countDownLabel.currentChar = textView.text.count
+        
+        let sizeToFitIn = CGSize(width: subjectTextView.bounds.size.width, height: CGFloat(MAXFLOAT))
+        let newSize = subjectTextView.sizeThatFits(sizeToFitIn)
+        let originHeight = 52 - subjectTextView.textContainerInset.top - subjectTextView.textContainerInset.bottom
+        let threeLinesHeight = 52 + originHeight * 2
+        if newSize.height > threeLinesHeight {
+            return
+        }
+        textViewHeight.constant =  newSize.height
     }
     
 }
