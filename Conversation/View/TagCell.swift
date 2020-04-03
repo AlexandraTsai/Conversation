@@ -74,6 +74,7 @@ class TagCell: UICollectionViewCell {
         if let image = image {
             coverImageView.image = image
         } else {
+            coverImageView.image = nil
             coverImageView.backgroundColor = UIColor.gray
         }
         nameLabel.text = name

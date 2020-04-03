@@ -126,7 +126,7 @@ extension ConversationViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         var view = touch.view
         while view != nil {
-            if view is UICollectionView || view is UITableView {
+            if view is UITableView {
                 return false
             } else {
                 view = view?.superview

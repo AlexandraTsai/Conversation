@@ -14,7 +14,6 @@ class ConversationViewController: UIViewController {
         didSet {
             toCollectionView.delegate = self
             toCollectionView.dataSource = self
-//            toCollectionView.registerCellWithNib(identifier: String(describing: TagCell.self), bundle: nil)
             toCollectionView.register(TagCell.self, forCellWithReuseIdentifier: String(describing: TagCell.self))
             toCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: String(describing: "Cell"))
             
@@ -264,7 +263,6 @@ class ConversationViewController: UIViewController {
     }
     
     @objc func collectionViewDidTap() {
-        textfield.becomeFirstResponder()
         if let layout = toCollectionView.collectionViewLayout as? LeftAlignedCollectionViewFlowLayout {
             layout.scrollDirection = .vertical
         }
