@@ -31,7 +31,14 @@ enum SendButtonColor {
 
 class MessageView: UIView {
     
-    @IBOutlet weak var textView: UITextView!
+    @IBOutlet weak var textView: UITextView! {
+        didSet {
+            textView.textContainerInset = UIEdgeInsets(top: 25,
+                                                       left: 30,
+                                                       bottom: 25,
+                                                       right: 30)
+        }
+    }
         
     @IBOutlet weak var countDownLabel: CountDownLabel! {
         didSet {

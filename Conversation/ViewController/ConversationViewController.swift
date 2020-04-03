@@ -49,26 +49,25 @@ class ConversationViewController: UIViewController {
     @IBOutlet weak var messageView: MessageView! {
         didSet {
             messageView.delegate = self
-            messageViewOriginY = messageView.frame.origin.y
-            messageViewOriginHeight = messageView.frame.size.height
         }
     }
-    
-    @IBOutlet weak var messageViewHeightConstraint: NSLayoutConstraint!
-    
+        
     @IBOutlet weak var messageViewTopConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var messageViewBottomConstraint: NSLayoutConstraint!
     
-    var friendListTableView = UITableView() {
+    @IBOutlet weak var friendListTableView: UITableView! {
         didSet {
-            self.friendListTableView.delegate = self
-            self.friendListTableView.dataSource = self
-            self.friendListTableView.registerCellWithNib(identifier: String(describing: FriendListCell.self),
+            friendListTableView.delegate = self
+            friendListTableView.dataSource = self
+            friendListTableView.registerCellWithNib(identifier: String(describing: FriendListCell.self),
                                                           bundle: nil)
-            self.friendListTableView.separatorStyle = .none
+            friendListTableView.separatorStyle = .none
         }
     }
     
+    @IBOutlet weak var friendTableViewBottomConstraint: NSLayoutConstraint!
+
     let keyboardReturnView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 62))
     
     lazy var textfield: UITextField = {
@@ -90,21 +89,19 @@ class ConversationViewController: UIViewController {
         return tagCellHeight * 3 + minimumLineSpacing * 2
     }()
     
+    var friendTableViewBottom: NSLayoutConstraint = NSLayoutConstraint()
+    
     var activeView: UIView? = nil
-    
-    var messageViewOriginY: CGFloat = 0
-    
-    var messageViewOriginHeight: CGFloat = 0
-        
+                    
     let viewModel = ConversationViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         messageView.textView.delegate = self
-        setupFriendListTableView()
         setupReturnView()
         friendListTableView.isHidden = true
         bindViewModel()
+        hideKeyboardWhenTappedAround()
         messageView.setConstraint(originTop: messageViewTopConstraint.constant,
                                   originbottom: messageViewBottomConstraint.constant,
                                   expandedTop: toCollectionView.frame.minY)
@@ -146,18 +143,7 @@ class ConversationViewController: UIViewController {
         }
     }
     
-    //MARK: - Friend List Table View
-    private func setupFriendListTableView() {
-        friendListTableView = UITableView()
-        view.addSubview(friendListTableView)
-        friendListTableView.translatesAutoresizingMaskIntoConstraints = false
-        friendListTableView.topAnchor.constraint(equalTo: toCollectionView.bottomAnchor, constant: 10).isActive = true
-        friendListTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        friendListTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        friendListTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-    }
-    
-    private func showFriendList() {
+    func showFriendList() {
         friendListTableView.isHidden = false
         friendListTableView.reloadData()
     }
@@ -177,6 +163,10 @@ class ConversationViewController: UIViewController {
     //MARK: - Keyboard
     private func setupReturnView() {
         keyboardReturnView.clipsToBounds = false
+        keyboardReturnView.addShadow(shadowColor: UIColor.lightGray.cgColor,
+                                     offset: .zero,
+                                     shadowRadius: 3,
+                                     opacity: 1)
         keyboardReturnView.backgroundColor = .white
         let returnBtn = UIButton()
         returnBtn.setImage(UIImage(named: "close_arrow_btn"), for: .normal)
@@ -201,6 +191,10 @@ class ConversationViewController: UIViewController {
             }
             messageViewBottomConstraint.constant = messageView.originBottomConstraint + keyboardSize.height
         }
+        //Editing toCollectionView
+        if !friendListTableView.isHidden {
+            friendTableViewBottomConstraint.constant = keyboardSize.height - 10
+        }
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
@@ -212,7 +206,19 @@ class ConversationViewController: UIViewController {
         messageViewBottomConstraint.constant = messageView.originBottomConstraint
     }
     
-    private func checkTextfield() {
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:    #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+        tap.delegate = self
+    }
+    
+    @objc func dismissKeyboard() {
+        if subjectTextView.isFirstResponder || messageView.textView.isFirstResponder {
+            view.endEditing(true)
+        }
+    }
+    
+    func checkTextfield() {
         if textfield.text == "" {
             textfield.resignFirstResponder()
             toCollectionView.heightConstraint.constant = 52
@@ -232,7 +238,7 @@ class ConversationViewController: UIViewController {
         }
     }
     
-    private func checkSendable() {
+    func checkSendable() {
         if viewModel.selectedFriend.value.count != 0 && subjectTextView.text != "" && messageView.textView.text != "" {
             messageView.changeSendButtonStatusTo(isSendable: true)
         } else {
@@ -241,7 +247,7 @@ class ConversationViewController: UIViewController {
     }
     
     //MARK: - Alert
-    private func showAlertWith(title: String, completion: (() -> Void)?) {
+    func showAlertWith(title: String, completion: (() -> Void)?) {
         let alert = UIAlertController(title: title,
                                       message: nil,
                                       preferredStyle: .alert)
@@ -270,228 +276,5 @@ class ConversationViewController: UIViewController {
     
     @objc func didTapCancelFriendButton(sender: UIButton) {
         viewModel.deselectFriendAt(index: sender.tag)
-    }
-}
-
-//MARK: - TextView Delegate
-extension ConversationViewController: UITextViewDelegate {
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        switch textView {
-        case is FloatingTextView:
-            subjectTextView.placeholderLabel.font = UIFont.systemFont(ofSize: 10)
-            UIView.animate(withDuration: 0.5) {
-                self.subjectTextView.placeHolderTopConstraint.constant = 0
-                self.view.layoutIfNeeded()
-            }
-        default:
-            activeView = messageView
-            messageView.placeholderLabel.isHidden = true
-        }
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        activeView = nil
-        
-        switch textView {
-        case is FloatingTextView:
-            if textView.text == nil {
-                subjectTextView.placeholderLabel.font = UIFont.systemFont(ofSize: 17)
-                UIView.animate(withDuration: 0.5) {
-                    self.subjectTextView.placeHolderTopConstraint.constant = (self.subjectTextView.bounds.height - self.subjectTextView.placeholderLabel.bounds.height)/2
-                    self.view.layoutIfNeeded()
-                }
-            }
-        default:
-            if messageView.textView.text == "" {
-                messageView.placeholderLabel.isHidden = false
-            }
-        }
-    }
-    
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-
-        ///Dismiss the keyboard on return key
-        if text == "\n" {
-            textView.resignFirstResponder()
-            return false
-        }
-        return true
-    }
-
-    func textViewDidChange(_ textView: UITextView) {
-        checkSendable()
-        switch textView {
-        case is FloatingTextView:
-            subjectTextView.countDownLabel.currentChar = textView.text.count
-
-            let sizeToFitIn = CGSize(width: subjectTextView.bounds.size.width, height: CGFloat(MAXFLOAT))
-            let newSize = subjectTextView.sizeThatFits(sizeToFitIn)
-            let originHeight = 52 - subjectTextView.textContainerInset.top - subjectTextView.textContainerInset.bottom
-            let threeLinesHeight = 52 + originHeight * 2
-            if newSize.height > threeLinesHeight {
-                return
-            }
-            textViewHeight.constant =  newSize.height
-        default:
-            messageView.countDownLabel.currentChar = textView.text.count
-        }
-    }
-    
-}
-
-//MARK: - TextField Delegate
-extension ConversationViewController: UITextFieldDelegate {
-    
-    //MARK: - Begin
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        showFriendList()
-        if viewModel.selectedFriend.value.count == 0 {
-            toCollectionView.placeholderLabel.font = UIFont.systemFont(ofSize: 10)
-            UIView.animate(withDuration: 0.5) {
-                self.toCollectionView.placeHolderTopConstraint.constant = 0
-                self.view.layoutIfNeeded()
-            }
-        }
-    }
-    
-    //MARK: - Change
-    func textFieldDidChangeSelection(_ textField: UITextField) {
-        
-        guard let text = textField.text else { return }
-        viewModel.filterFriendWith(text)
-    }
-    
-    //MARK: - End
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        return true
-    }
-       
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        friendListTableView.isHidden = true
-        
-        if viewModel.selectedFriend.value.count == 0 {
-            toCollectionView.placeholderLabel.font = UIFont.systemFont(ofSize: 17)
-            UIView.animate(withDuration: 0.5) {
-                self.toCollectionView.placeHolderTopConstraint.constant = (self.toCollectionView.bounds.height - self.toCollectionView.placeholderLabel.bounds.height)/2
-                self.view.layoutIfNeeded()
-            }
-        }
-    }
-    
-    //MARK: - Return
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        checkTextfield()
-        return true
-    }
-}
-
-extension ConversationViewController: UIGestureRecognizerDelegate { }
-
-//MARK: - CollectionView Delegate & DataSource
-extension ConversationViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.selectedFriend.value.count + 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        //The last cell
-        if isTextfieldCell(collectionView, at: indexPath) {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
-            textfield.frame = cell.bounds
-            cell.addSubview(textfield)
-            return cell
-        }
-
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: AlexCell.self), for: indexPath)
-        guard let tagCell = cell as? AlexCell else { return cell }
-        var friend = viewModel.selectedFriend.value[indexPath.row]
-        tagCell.setupData(friend.image, friend.tagName)
-        tagCell.deleteButton.addTarget(self, action: #selector(didTapCancelFriendButton), for: .touchUpInside)
-        tagCell.deleteButton.tag = indexPath.row
-        return tagCell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        if isTextfieldCell(collectionView, at: indexPath) {
-            return CGSize(width: 100, height: tagCellHeight)
-        } else {
-            let name = NSString(string: viewModel.selectedFriend.value[indexPath.row].tagName)
-            let size: CGSize = name.size(withAttributes:  [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 13.0)])
-            return CGSize(width: size.width + (tagCellHeight + 3) * 2 , height: tagCellHeight)
-        }
-    }
-
-    func isTextfieldCell(_ collectionView: UICollectionView, at indexPath: IndexPath) -> Bool {
-        return (indexPath.row == (collectionView.numberOfItems(inSection: 0) - 1))
-    }
-    
-}
-
-//MARK: - CollectionViewDelegateFlowLayout
-extension ConversationViewController: UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return minimumLineSpacing
-    }
-}
-
-
-//MARK: - TableView Delegate & DataSource
-extension ConversationViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.friendList.value.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: FriendListCell.self), for: indexPath)
-        guard let friendListCell = cell as? FriendListCell,
-            indexPath.row < viewModel.friendList.value.count else { return cell }
-        var friend = viewModel.friendList.value[indexPath.row]
-        friendListCell.setupWith(image: friend.image,
-                                 name: friend.showName,
-                                 email: friend.email)
-        return friendListCell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60 * UIScreen.main.bounds.width / 375
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.selectFriendFromList(atIndex: indexPath.row)
-        DispatchQueue.global().async {
-            self.viewModel.removeFriendListAt(indexPath.row)
-        }
-    }
-}
-
-extension ConversationViewController: MessageViewDelegate {
-    
-    func expandTextView(_ messageView: MessageView) {
-        switch messageView.isExpanded {
-        case true:
-            messageViewTopConstraint.constant = messageView.originTopConstraint
-        case false:
-            messageViewTopConstraint.constant = messageView.expandedTopConstraint
-        }
-    }
-    
-    func sendMessage(_ messageView: MessageView) {
-        if viewModel.selectedFriend.value.count == 0 {
-            showAlertWith(title: "Please add participants to the chat.",
-                          completion: nil)
-        }
-        if subjectTextView.text == "" {
-            showAlertWith(title: "Please set a subject", completion: nil)
-        }
-        if messageView.textView.text == "" {
-            showAlertWith(title: "Please add a message to this conversation",
-                          completion: nil)
-        }
     }
 }

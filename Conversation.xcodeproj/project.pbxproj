@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A83E69A02436FFA0009F45B0 /* ConversationViewController+Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83E699F2436FFA0009F45B0 /* ConversationViewController+Delegate.swift */; };
 		A85C5C0E242A2CA0001F369D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85C5C0D242A2CA0001F369D /* AppDelegate.swift */; };
 		A85C5C10242A2CA0001F369D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85C5C0F242A2CA0001F369D /* SceneDelegate.swift */; };
 		A85C5C12242A2CA0001F369D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85C5C11242A2CA0001F369D /* ViewController.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A83E699F2436FFA0009F45B0 /* ConversationViewController+Delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ConversationViewController+Delegate.swift"; sourceTree = "<group>"; };
 		A85C5C0A242A2CA0001F369D /* Conversation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Conversation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A85C5C0D242A2CA0001F369D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A85C5C0F242A2CA0001F369D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 			children = (
 				A85C5C11242A2CA0001F369D /* ViewController.swift */,
 				A85C5C28242A5A52001F369D /* ConversationViewController.swift */,
+				A83E699F2436FFA0009F45B0 /* ConversationViewController+Delegate.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -248,6 +251,7 @@
 				A85C5C40242E4717001F369D /* Bindable.swift in Sources */,
 				A8F7A0462435A7D100122FD7 /* MessageView.swift in Sources */,
 				A85C5C35242CCB04001F369D /* FloatingTextView.swift in Sources */,
+				A83E69A02436FFA0009F45B0 /* ConversationViewController+Delegate.swift in Sources */,
 				A85C5C3B242E3AD9001F369D /* UICollectionView+Extension.swift in Sources */,
 				A85C5C26242A53F9001F369D /* ConversationViewModel.swift in Sources */,
 				A8F7A04224358F4A00122FD7 /* CountDownLabel.swift in Sources */,
