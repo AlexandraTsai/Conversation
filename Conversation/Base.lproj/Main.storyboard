@@ -149,7 +149,7 @@
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="k9V-vo-xP3">
                                         <rect key="frame" x="35" y="20" width="273" height="108"/>
-                                        <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -214,6 +214,7 @@
                                 <connections>
                                     <outlet property="countDownLabel" destination="z7J-N7-r3b" id="pN6-1X-Xfa"/>
                                     <outlet property="placeholderLabel" destination="UcR-CK-bbn" id="Ndy-Gs-zXu"/>
+                                    <outlet property="sendButton" destination="UVg-Ju-KfH" id="sXy-Bf-Rwe"/>
                                     <outlet property="textView" destination="k9V-vo-xP3" id="pxc-g4-vJw"/>
                                 </connections>
                             </view>

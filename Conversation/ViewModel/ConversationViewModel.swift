@@ -16,7 +16,7 @@ class ConversationViewModel {
     var selectedFriend: Bindable<[Friend]> = Bindable<[Friend]>([Friend]())
     
     var unselectedFriend: [Friend] = [Friend]()
-    
+        
     init() {
         self.fetchFriends()
     }

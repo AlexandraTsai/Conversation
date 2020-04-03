@@ -123,6 +123,7 @@ class ConversationViewController: UIViewController {
         messageView.drawShadow()
     }
     
+    //MARK: - ViewModel binding
     private func bindViewModel() {
         viewModel.friendList.bind { [weak self] friendList in
             DispatchQueue.main.async {
@@ -135,6 +136,7 @@ class ConversationViewController: UIViewController {
             
         }
         viewModel.selectedFriend.bind { [weak self] friendList in
+            self?.checkSendable()
             self?.textfield.text = ""
             self?.toCollectionView.reloadData()
             DispatchQueue.main.async {
@@ -202,14 +204,12 @@ class ConversationViewController: UIViewController {
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        if ((activeView as? MessageView) != nil) {
-            switch messageView.isExpanded {
-            case false:
-                messageViewTopConstraint.constant = messageView.originTopConstraint
-            default: break
-            }
-            messageViewBottomConstraint.constant = messageView.originBottomConstraint
+        switch messageView.isExpanded {
+        case false:
+            messageViewTopConstraint.constant = messageView.originTopConstraint
+        default: break
         }
+        messageViewBottomConstraint.constant = messageView.originBottomConstraint
     }
     
     private func checkTextfield() {
@@ -225,17 +225,31 @@ class ConversationViewController: UIViewController {
         if email.isValidEmail() {
             viewModel.insertInvitingFriendWith(email: email)
         } else {
-            let alert = UIAlertController(title: "Not a valid email. Please try a valid email address",
-                                          message: nil,
-                                          preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK",
-                                         style: .default,
-                                         handler: nil)
-            alert.addAction(okAction)
-            present(alert, animated: true, completion: { [weak self] in
-                self?.textfield.text = nil
+            showAlertWith(title: "Not a valid email. Please try a valid email address",
+                          completion: { [weak self] in
+                          self?.textfield.text = nil
             })
         }
+    }
+    
+    private func checkSendable() {
+        if viewModel.selectedFriend.value.count != 0 && subjectTextView.text != "" && messageView.textView.text != "" {
+            messageView.changeSendButtonStatusTo(isSendable: true)
+        } else {
+            messageView.changeSendButtonStatusTo(isSendable: false)
+        }
+    }
+    
+    //MARK: - Alert
+    private func showAlertWith(title: String, completion: (() -> Void)?) {
+        let alert = UIAlertController(title: title,
+                                      message: nil,
+                                      preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK",
+                                     style: .default,
+                                     handler: nil)
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: completion)
     }
 
     //MARK: - Tap Gesture Handler
@@ -306,6 +320,7 @@ extension ConversationViewController: UITextViewDelegate {
     }
 
     func textViewDidChange(_ textView: UITextView) {
+        checkSendable()
         switch textView {
         case is FloatingTextView:
             subjectTextView.countDownLabel.currentChar = textView.text.count
@@ -321,7 +336,6 @@ extension ConversationViewController: UITextViewDelegate {
         default:
             messageView.countDownLabel.textColor = UIColor.red
         }
-
     }
     
 }
@@ -459,12 +473,6 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
 extension ConversationViewController: MessageViewDelegate {
     
     func expandTextView(_ messageView: MessageView) {
-//        if messageViewHeightConstraint.constant != messageViewOriginHeight {
-//            messageViewHeightConstraint.constant = messageViewOriginHeight
-//        } else {
-//            let increase = messageViewOriginY - toCollectionView.frame.origin.y
-//            messageViewHeightConstraint.constant = increase + messageViewOriginHeight
-//        }
         switch messageView.isExpanded {
         case true:
             messageViewTopConstraint.constant = messageView.originTopConstraint
@@ -474,6 +482,16 @@ extension ConversationViewController: MessageViewDelegate {
     }
     
     func sendMessage(_ messageView: MessageView) {
-        
+        if viewModel.selectedFriend.value.count == 0 {
+            showAlertWith(title: "Please add participants to the chat.",
+                          completion: nil)
+        }
+        if subjectTextView.text == "" {
+            showAlertWith(title: "Please set a subject", completion: nil)
+        }
+        if messageView.textView.text == "" {
+            showAlertWith(title: "Please add a message to this conversation",
+                          completion: nil)
+        }
     }
 }

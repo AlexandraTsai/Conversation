@@ -15,6 +15,20 @@ protocol MessageViewDelegate: class {
     func sendMessage(_ messageView: MessageView)
 }
 
+enum SendButtonColor {
+    case sendable
+    case unsendable
+    
+    var color: UIColor {
+        switch self {
+        case .sendable:
+            return UIColor(hexString: "179DD7")
+        default:
+            return UIColor(hexString: "E5E8EE")
+        }
+    }
+}
+
 class MessageView: UIView {
     
     @IBOutlet weak var textView: UITextView!
@@ -33,8 +47,16 @@ class MessageView: UIView {
         }
     }
     
+    @IBOutlet weak var sendButton: UIButton! {
+        didSet {
+            sendButton.setImage(UIImage(named: "send")?.withRenderingMode(.alwaysTemplate),
+                                for: .normal)
+            sendButton.tintColor = SendButtonColor.unsendable.color
+        }
+    }
+    
     weak var delegate: MessageViewDelegate?
-
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setup()
@@ -74,5 +96,13 @@ class MessageView: UIView {
         originTopConstraint = topConstraint
         originBottomConstraint = bottomConstraint
         self.expandedTopConstraint = expandedTopConstraint
+    }
+    
+    func changeSendButtonStatusTo(isSendable: Bool) {
+        if isSendable {
+            sendButton.tintColor = SendButtonColor.sendable.color
+        } else {
+            sendButton.tintColor = SendButtonColor.unsendable.color
+        }
     }
 }
