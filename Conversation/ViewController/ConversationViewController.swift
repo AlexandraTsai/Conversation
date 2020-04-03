@@ -12,6 +12,7 @@ class ConversationViewController: UIViewController {
     
     @IBOutlet weak var toCollectionView: TagField! {
         didSet {
+            toCollectionView.layer.cornerRadius = 5
             toCollectionView.delegate = self
             toCollectionView.dataSource = self
             toCollectionView.register(TagCell.self, forCellWithReuseIdentifier: String(describing: TagCell.self))
@@ -39,6 +40,7 @@ class ConversationViewController: UIViewController {
         
     @IBOutlet weak var subjectTextView: FloatingTextView! {
          didSet {
+             subjectTextView.layer.cornerRadius = 5
              subjectTextView.delegate = self
          }
      }
