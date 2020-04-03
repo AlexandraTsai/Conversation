@@ -37,7 +37,7 @@ class CountDownLabel: UILabel {
         guard let maxChar = maxChar else { return }
         text = String(currentChar) + "/" + String(maxChar)
         if currentChar > maxChar || (maxChar - currentChar < 10) {
-            textColor = .red
+            textColor = UIColor(hexString: "CC3232")
         } else {
             textColor = normalColor
         }

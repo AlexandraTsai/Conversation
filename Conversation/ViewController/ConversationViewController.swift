@@ -46,12 +46,18 @@ class ConversationViewController: UIViewController {
     
     @IBOutlet weak var textViewHeight: NSLayoutConstraint!
     
-    @IBOutlet weak var messageTextView: MessageTextView! {
+    @IBOutlet weak var messageView: MessageView! {
         didSet {
-            messageTextView.delegate = self
-            messageViewOriginY = messageTextView.frame.origin.y
+            messageView.delegate = self
+            messageViewOriginY = messageView.frame.origin.y
+            messageViewOriginHeight = messageView.frame.size.height
         }
     }
+    
+    @IBOutlet weak var messageViewHeightConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var messageViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var messageViewBottomConstraint: NSLayoutConstraint!
     
     var friendListTableView = UITableView() {
         didSet {
@@ -84,18 +90,24 @@ class ConversationViewController: UIViewController {
         return tagCellHeight * 3 + minimumLineSpacing * 2
     }()
     
-    var activeTextView: UITextView? = nil
+    var activeView: UIView? = nil
     
     var messageViewOriginY: CGFloat = 0
+    
+    var messageViewOriginHeight: CGFloat = 0
         
     let viewModel = ConversationViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        messageView.textView.delegate = self
         setupFriendListTableView()
         setupReturnView()
         friendListTableView.isHidden = true
         bindViewModel()
+        messageView.setConstraint(originTop: messageViewTopConstraint.constant,
+                                  originbottom: messageViewBottomConstraint.constant,
+                                  expandedTop: toCollectionView.frame.minY)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow),
                                                name: UIResponder.keyboardWillShowNotification,
@@ -104,6 +116,11 @@ class ConversationViewController: UIViewController {
                                                selector: #selector(keyboardWillHide),
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        messageView.drawShadow()
     }
     
     private func bindViewModel() {
@@ -174,14 +191,24 @@ class ConversationViewController: UIViewController {
         guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
             return
         }
-        if messageTextView.isFirstResponder {
-            messageTextView.frame.origin.y = messageViewOriginY - keyboardSize.height
+        if messageView.textView.isFirstResponder {
+            switch messageView.isExpanded {
+            case false:
+                messageViewTopConstraint.constant = messageView.originTopConstraint - keyboardSize.height
+            default: break
+            }
+            messageViewBottomConstraint.constant = messageView.originBottomConstraint + keyboardSize.height
         }
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        if ((activeTextView as? MessageTextView) != nil) {
-            messageTextView.frame.origin.y = messageViewOriginY
+        if ((activeView as? MessageView) != nil) {
+            switch messageView.isExpanded {
+            case false:
+                messageViewTopConstraint.constant = messageView.originTopConstraint
+            default: break
+            }
+            messageViewBottomConstraint.constant = messageView.originBottomConstraint
         }
     }
     
@@ -236,25 +263,24 @@ class ConversationViewController: UIViewController {
 extension ConversationViewController: UITextViewDelegate {
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        activeTextView = textView
-        
-        if textView is FloatingTextView {
+        switch textView {
+        case is FloatingTextView:
             subjectTextView.placeholderLabel.font = UIFont.systemFont(ofSize: 10)
             UIView.animate(withDuration: 0.5) {
                 self.subjectTextView.placeHolderTopConstraint.constant = 0
                 self.view.layoutIfNeeded()
             }
-        }
-        
-        if textView is MessageTextView {
-            messageTextView.placeholderLabel.isHidden = true
+        default:
+            activeView = messageView
+            messageView.placeholderLabel.isHidden = true
         }
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        activeTextView = nil
+        activeView = nil
         
-        if textView is FloatingTextView {
+        switch textView {
+        case is FloatingTextView:
             if textView.text == nil {
                 subjectTextView.placeholderLabel.font = UIFont.systemFont(ofSize: 17)
                 UIView.animate(withDuration: 0.5) {
@@ -262,10 +288,10 @@ extension ConversationViewController: UITextViewDelegate {
                     self.view.layoutIfNeeded()
                 }
             }
-        }
-        
-        if textView is MessageTextView && (textView.text == "") {
-            messageTextView.placeholderLabel.isHidden = false
+        default:
+            if messageView.textView.text == "" {
+                messageView.placeholderLabel.isHidden = false
+            }
         }
     }
     
@@ -278,11 +304,12 @@ extension ConversationViewController: UITextViewDelegate {
         }
         return true
     }
-    
+
     func textViewDidChange(_ textView: UITextView) {
-        if let subjectTextView = textView as? FloatingTextView {
+        switch textView {
+        case is FloatingTextView:
             subjectTextView.countDownLabel.currentChar = textView.text.count
-            
+
             let sizeToFitIn = CGSize(width: subjectTextView.bounds.size.width, height: CGFloat(MAXFLOAT))
             let newSize = subjectTextView.sizeThatFits(sizeToFitIn)
             let originHeight = 52 - subjectTextView.textContainerInset.top - subjectTextView.textContainerInset.bottom
@@ -291,7 +318,10 @@ extension ConversationViewController: UITextViewDelegate {
                 return
             }
             textViewHeight.constant =  newSize.height
+        default:
+            messageView.countDownLabel.textColor = UIColor.red
         }
+
     }
     
 }
@@ -423,5 +453,27 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
         DispatchQueue.global().async {
             self.viewModel.removeFriendListAt(indexPath.row)
         }
+    }
+}
+
+extension ConversationViewController: MessageViewDelegate {
+    
+    func expandTextView(_ messageView: MessageView) {
+//        if messageViewHeightConstraint.constant != messageViewOriginHeight {
+//            messageViewHeightConstraint.constant = messageViewOriginHeight
+//        } else {
+//            let increase = messageViewOriginY - toCollectionView.frame.origin.y
+//            messageViewHeightConstraint.constant = increase + messageViewOriginHeight
+//        }
+        switch messageView.isExpanded {
+        case true:
+            messageViewTopConstraint.constant = messageView.originTopConstraint
+        case false:
+            messageViewTopConstraint.constant = messageView.expandedTopConstraint
+        }
+    }
+    
+    func sendMessage(_ messageView: MessageView) {
+        
     }
 }
