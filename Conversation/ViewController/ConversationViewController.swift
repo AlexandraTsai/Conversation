@@ -14,8 +14,8 @@ class ConversationViewController: UIViewController {
         didSet {
             toCollectionView.delegate = self
             toCollectionView.dataSource = self
-            toCollectionView.registerCellWithNib(identifier: String(describing: TagCell.self), bundle: nil)
-            toCollectionView.register(AlexCell.self, forCellWithReuseIdentifier: String(describing: AlexCell.self))
+//            toCollectionView.registerCellWithNib(identifier: String(describing: TagCell.self), bundle: nil)
+            toCollectionView.register(TagCell.self, forCellWithReuseIdentifier: String(describing: TagCell.self))
             toCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: String(describing: "Cell"))
             
             //ContentInset

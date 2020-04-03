@@ -152,8 +152,8 @@ extension ConversationViewController: UICollectionViewDelegate, UICollectionView
             return cell
         }
 
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: AlexCell.self), for: indexPath)
-        guard let tagCell = cell as? AlexCell else { return cell }
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TagCell.self), for: indexPath)
+        guard let tagCell = cell as? TagCell else { return cell }
         var friend = viewModel.selectedFriend.value[indexPath.row]
         tagCell.setupData(friend.image, friend.tagName)
         tagCell.deleteButton.addTarget(self, action: #selector(didTapCancelFriendButton), for: .touchUpInside)
