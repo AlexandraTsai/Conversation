@@ -87,9 +87,9 @@ class MessageView: UIView {
     
     func drawShadow() {
         addShadow(shadowColor: UIColor.lightGray.cgColor,
-        offset: .zero,
-        shadowRadius: 3,
-        opacity: 1)
+                  offset: .zero,
+                  shadowRadius: 3,
+                  opacity: 1)
     }
     
     func setConstraint(originTop topConstraint:CGFloat, originbottom bottomConstraint: CGFloat, expandedTop expandedTopConstraint: CGFloat) {
@@ -105,4 +105,5 @@ class MessageView: UIView {
             sendButton.tintColor = SendButtonColor.unsendable.color
         }
     }
+    
 }

@@ -334,7 +334,7 @@ extension ConversationViewController: UITextViewDelegate {
             }
             textViewHeight.constant =  newSize.height
         default:
-            messageView.countDownLabel.textColor = UIColor.red
+            messageView.countDownLabel.currentChar = textView.text.count
         }
     }
     
