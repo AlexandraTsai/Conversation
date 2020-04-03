@@ -275,4 +275,15 @@ class ConversationViewController: UIViewController {
     @objc func didTapCancelFriendButton(sender: UIButton) {
         viewModel.deselectFriendAt(index: sender.tag)
     }
+    
+    //MARK: - Style
+    func changeEditingStyleFor(view: UIView, isEditing: Bool) {
+        switch isEditing {
+        case true:
+            view.layer.borderColor = UIColor(hexString: "1895EB").cgColor
+            view.layer.borderWidth = 1
+        default:
+            view.layer.borderWidth = 0
+        }
+    }
 }

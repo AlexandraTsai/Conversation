@@ -14,12 +14,14 @@ extension ConversationViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         switch textView {
         case is FloatingTextView:
+            changeEditingStyleFor(view: subjectTextView, isEditing: true)
             subjectTextView.placeholderLabel.font = UIFont.systemFont(ofSize: 10)
             UIView.animate(withDuration: 0.5) {
                 self.subjectTextView.placeHolderTopConstraint.constant = 0
                 self.view.layoutIfNeeded()
             }
         default:
+            changeEditingStyleFor(view: messageView, isEditing: true)
             activeView = messageView
             messageView.placeholderLabel.isHidden = true
         }
@@ -30,6 +32,7 @@ extension ConversationViewController: UITextViewDelegate {
         
         switch textView {
         case is FloatingTextView:
+            changeEditingStyleFor(view: subjectTextView, isEditing: false)
             if textView.text == "" {
                 subjectTextView.placeholderLabel.font = UIFont.systemFont(ofSize: 17)
                 UIView.animate(withDuration: 0.5) {
@@ -38,6 +41,7 @@ extension ConversationViewController: UITextViewDelegate {
                 }
             }
         default:
+            changeEditingStyleFor(view: messageView, isEditing: false)
             if messageView.textView.text == "" {
                 messageView.placeholderLabel.isHidden = false
             }
@@ -77,9 +81,9 @@ extension ConversationViewController: UITextViewDelegate {
 //MARK: - TextField Delegate
 extension ConversationViewController: UITextFieldDelegate {
     
-    //MARK: - Begin
     func textFieldDidBeginEditing(_ textField: UITextField) {
         showFriendList()
+        changeEditingStyleFor(view: toCollectionView, isEditing: true)
         if viewModel.selectedFriend.value.count == 0 {
             toCollectionView.placeholderLabel.font = UIFont.systemFont(ofSize: 10)
             UIView.animate(withDuration: 0.5) {
@@ -89,20 +93,19 @@ extension ConversationViewController: UITextFieldDelegate {
         }
     }
     
-    //MARK: - Change
     func textFieldDidChangeSelection(_ textField: UITextField) {
         
         guard let text = textField.text else { return }
         viewModel.filterFriendWith(text)
     }
     
-    //MARK: - End
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         return true
     }
        
     func textFieldDidEndEditing(_ textField: UITextField) {
         friendListTableView.isHidden = true
+        changeEditingStyleFor(view: toCollectionView, isEditing: false)
         
         if viewModel.selectedFriend.value.count == 0 {
             toCollectionView.placeholderLabel.font = UIFont.systemFont(ofSize: 17)
@@ -113,7 +116,6 @@ extension ConversationViewController: UITextFieldDelegate {
         }
     }
     
-    //MARK: - Return
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         checkTextfield()
         return true
@@ -167,8 +169,8 @@ extension ConversationViewController: UICollectionViewDelegate, UICollectionView
             return CGSize(width: 100, height: tagCellHeight)
         } else {
             let name = NSString(string: viewModel.selectedFriend.value[indexPath.row].tagName)
-            let size: CGSize = name.size(withAttributes:  [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 13.0)])
-            return CGSize(width: size.width + (tagCellHeight + 3) * 2 , height: tagCellHeight)
+            let size: CGSize = name.size(withAttributes:  [.font: UIFont.systemFont(ofSize: 13.0)])
+            return CGSize(width: size.width + (tagCellHeight + 5) * 2 , height: tagCellHeight)
         }
     }
 

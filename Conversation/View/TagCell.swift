@@ -16,6 +16,7 @@ class TagCell: UICollectionViewCell {
     
     let coverImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.layer.cornerRadius = 5
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -47,10 +48,12 @@ class TagCell: UICollectionViewCell {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+        setupViews()
     }
     
     func setupViews() {
+        layer.cornerRadius = 5
         addSubview(nameLabel)
         addSubview(deleteButton)
         addSubview(coverImageView)
