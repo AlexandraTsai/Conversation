@@ -117,7 +117,7 @@ extension ConversationViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        checkTextfield()
+        checkTextfieldBeforeReturn()
         return true
     }
 }

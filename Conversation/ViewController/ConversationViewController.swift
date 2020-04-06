@@ -15,26 +15,6 @@ class ConversationViewController: UIViewController {
             toCollectionView.layer.cornerRadius = 5
             toCollectionView.delegate = self
             toCollectionView.dataSource = self
-            toCollectionView.register(TagCell.self, forCellWithReuseIdentifier: String(describing: TagCell.self))
-            toCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: String(describing: "Cell"))
-            
-            //ContentInset
-            let updnSpacing = (toCollectionView.bounds.height - tagCellHeight) / 2
-            toCollectionView.contentInset = UIEdgeInsets(top: updnSpacing,
-                                                         left: 20,
-                                                         bottom: updnSpacing,
-                                                         right: 20)
-            //FlowLayout
-            let layout = LeftAlignedCollectionViewFlowLayout()
-            layout.scrollDirection = .vertical
-            toCollectionView.collectionViewLayout = layout
-            
-            //Tap Gesture
-            let tap = UITapGestureRecognizer(target: self, action: #selector(collectionViewDidTap))
-            tap.numberOfTapsRequired = 1
-            tap.numberOfTouchesRequired = 1
-            tap.delegate = self
-            toCollectionView.addGestureRecognizer(tap)
         }
     }
         
@@ -100,6 +80,7 @@ class ConversationViewController: UIViewController {
         super.viewDidLoad()
         messageView.textView.delegate = self
         setupReturnView()
+        setupCollectionView()
         friendListTableView.isHidden = true
         bindViewModel()
         hideKeyboardWhenTappedAround()
@@ -131,7 +112,6 @@ class ConversationViewController: UIViewController {
                     self?.adjustCollectionViewHeight()
                 }
             }
-            
         }
         viewModel.selectedFriend.bind { [weak self] friendList in
             self?.checkSendable()
@@ -147,6 +127,29 @@ class ConversationViewController: UIViewController {
     func showFriendList() {
         friendListTableView.isHidden = false
         friendListTableView.reloadData()
+    }
+    
+    private func setupCollectionView() {
+        toCollectionView.register(TagCell.self, forCellWithReuseIdentifier: String(describing: TagCell.self))
+        toCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: String(describing: "Cell"))
+        
+        //ContentInset
+        let updnSpacing = (toCollectionView.bounds.height - tagCellHeight) / 2
+        toCollectionView.contentInset = UIEdgeInsets(top: updnSpacing,
+                                                     left: 20,
+                                                     bottom: updnSpacing,
+                                                     right: 20)
+        //FlowLayout
+        let layout = LeftAlignedCollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        toCollectionView.collectionViewLayout = layout
+        
+        //Tap Gesture
+        let tap = UITapGestureRecognizer(target: self, action: #selector(collectionViewDidTap))
+        tap.numberOfTapsRequired = 1
+        tap.numberOfTouchesRequired = 1
+        tap.delegate = self
+        toCollectionView.addGestureRecognizer(tap)
     }
     
     private func adjustCollectionViewHeight() {
@@ -219,7 +222,8 @@ class ConversationViewController: UIViewController {
         }
     }
     
-    func checkTextfield() {
+    //MARK: - Check Before Action
+    func checkTextfieldBeforeReturn() {
         if textfield.text == "" {
             textfield.resignFirstResponder()
             toCollectionView.heightConstraint.constant = 52
@@ -261,7 +265,7 @@ class ConversationViewController: UIViewController {
 
     //MARK: - Tap Gesture Handler
     @objc func returnButtonTapped() {
-        checkTextfield()
+        checkTextfieldBeforeReturn()
     }
     
     @objc func collectionViewDidTap() {
