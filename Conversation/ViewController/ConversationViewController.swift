@@ -104,7 +104,7 @@ class ConversationViewController: UIViewController {
     
     //MARK: - ViewModel binding
     private func bindViewModel() {
-        viewModel.friendList.bind { [weak self] friendList in
+        viewModel.showingFriendList.bind { [weak self] friendList in
             DispatchQueue.main.async {
                 self?.friendListTableView.reloadData()
                 DispatchQueue.main.async {

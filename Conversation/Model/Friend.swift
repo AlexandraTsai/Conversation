@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-struct Friend {
+struct Friend: Equatable {
     
     let firstName: String
     

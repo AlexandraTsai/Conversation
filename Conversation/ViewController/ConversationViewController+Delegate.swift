@@ -193,15 +193,15 @@ extension ConversationViewController: UICollectionViewDelegateFlowLayout {
 extension ConversationViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.friendList.value.count
+        return viewModel.showingFriendList.value.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: FriendListCell.self), for: indexPath)
         guard let friendListCell = cell as? FriendListCell,
-            indexPath.row < viewModel.friendList.value.count else { return cell }
-        var friend = viewModel.friendList.value[indexPath.row]
+            indexPath.row < viewModel.showingFriendList.value.count else { return cell }
+        var friend = viewModel.showingFriendList.value[indexPath.row]
         friendListCell.setupWith(image: friend.image,
                                  name: friend.showName,
                                  email: friend.email)
@@ -214,9 +214,6 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewModel.selectFriendFromList(atIndex: indexPath.row)
-        DispatchQueue.global().async {
-            self.viewModel.removeFriendListAt(indexPath.row)
-        }
     }
 }
 

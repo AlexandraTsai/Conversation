@@ -11,7 +11,8 @@ import UIKit
 
 class ConversationViewModel {
     
-    var friendList: Bindable<[Friend]> = Bindable<[Friend]>([Friend]()) 
+    //The friend List show on tableView (all unselected friends/filtered friends)
+    var showingFriendList: Bindable<[Friend]> = Bindable<[Friend]>([Friend]()) 
     
     var selectedFriend: Bindable<[Friend]> = Bindable<[Friend]>([Friend]())
     
@@ -22,24 +23,25 @@ class ConversationViewModel {
     }
     
     private func fetchFriends() {
-        friendList.value = dummyFriendList
+        showingFriendList.value = dummyFriendList
         unselectedFriend = dummyFriendList
     }
     
     //MARK: - FriendList edit
     func removeFriendListAt(_ index: Int) {
-        guard index < friendList.value.count else {
+        guard index < showingFriendList.value.count else {
             return
         }
-        var originList = friendList.value
+        var originList = showingFriendList.value
         originList.remove(at: index)
-        friendList.value = originList
+        showingFriendList.value = originList
     }
     
     func addBackFriend(_ friend: Friend) {
-        var originList = friendList.value
-       originList.append(friend)
-       friendList.value = originList
+        var originList = showingFriendList.value
+        originList.append(friend)
+        unselectedFriend.append(friend)
+        showingFriendList.value = originList
     }
     
     //MARK: - Selected Friend edit
@@ -48,14 +50,17 @@ class ConversationViewModel {
         var selectedFriends = selectedFriend.value
         selectedFriends.remove(at: index)
         selectedFriend.value = selectedFriends
-        
         if friendToBeRemove.tagName != friendToBeRemove.email {
             addBackFriend(friendToBeRemove)
         }
     }
     
     func selectFriendFromList(atIndex index: Int) {
-        let friend = friendList.value[index]
+        let friend = showingFriendList.value[index]
+        removeFriendListAt(index)
+        if let index = unselectedFriend.firstIndex(where: { $0 == friend}) {
+            unselectedFriend.remove(at: index)
+        }
         var selectedFriends = selectedFriend.value
         selectedFriends.append(friend)
         selectedFriend.value = selectedFriends
@@ -80,18 +85,18 @@ class ConversationViewModel {
                 filteredFriends.append(unselectedFriend[index])
             }
         }
-        friendList.value = filteredFriends
+        showingFriendList.value = filteredFriends
     }
 }
 
 let dummyFriendList: Array<Friend> = [
-    Friend(firstName: "Janet", lastName: "CHIU", email: "jordanLin@gmail.com", image: UIImage(named: "fimage1")),
-    Friend(firstName: "Wendy", lastName: "CHOU", email: "jordanLin@gmail.com", image: UIImage(named: "fimage2")),
-    Friend(firstName: "Marria", lastName: "Co", email: "jordanLin@gmail.com", image: nil),
-    Friend(firstName: "Kelia", lastName: "Moniz", email: "jordanLin@gmail.com", image: UIImage(named: "fimage3")),
-    Friend(firstName: "Anita", lastName: "Chen", email: "jordanLin@gmail.com", image: UIImage(named: "fimage4")),
-    Friend(firstName: "Cindy", lastName: "Chang", email: "jordanLin@gmail.com", image: UIImage(named: "fimage5")),
-    Friend(firstName: "Jordan", lastName: "Lin", email: "jordanLin@gmail.com", image: UIImage(named: "mimage1")),
-    Friend(firstName: "David", lastName: "Wang", email: "jordanLin@gmail.com", image: nil),
-    Friend(firstName: "Fabio", lastName: "Wu", email: "jordanLin@gmail.com", image: UIImage(named: "mimage2"))
+    Friend(firstName: "Janet", lastName: "CHIU", email: "Janet@gmail.com", image: UIImage(named: "fimage1")),
+    Friend(firstName: "Wendy", lastName: "CHOU", email: "WendyCHOU@gmail.com", image: UIImage(named: "fimage2")),
+    Friend(firstName: "Marria", lastName: "Co", email: "Marria@gmail.com", image: nil),
+    Friend(firstName: "Kelia", lastName: "Moniz", email: "KeliaMoniz@gmail.com", image: UIImage(named: "fimage3")),
+    Friend(firstName: "Anita", lastName: "Chen", email: "Anita@gmail.com", image: UIImage(named: "fimage4")),
+    Friend(firstName: "Cindy", lastName: "Chang", email: "Cindy@gmail.com", image: UIImage(named: "fimage5")),
+    Friend(firstName: "Joe", lastName: "Lin", email: "JoeLin@gmail.com", image: UIImage(named: "mimage1")),
+    Friend(firstName: "David", lastName: "Wang", email: "David@gmail.com", image: nil),
+    Friend(firstName: "Fabio", lastName: "Wu", email: "Fabio@gmail.com", image: UIImage(named: "mimage2"))
 ]
